@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Savemate.Application.Interface.IRepositories
 {
-    public interface IUser : IBaseRepository<User>
+    public interface IUserRepository : IBaseRepository<User>
     {
     }
 }

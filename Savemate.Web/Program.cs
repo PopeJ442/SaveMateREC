@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-DependencyInjection.AddingDbContext(builder.Services, builder.Configuration); 
-
+DependencyInjection.AddingDbContext(builder.Services, builder.Configuration);
+DependencyInjection.Registering(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

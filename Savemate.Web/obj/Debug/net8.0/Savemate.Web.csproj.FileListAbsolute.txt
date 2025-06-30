@@ -279,3 +279,4 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\ru
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Savemate.Infrastructure.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Savemate.Infrastructure.pdb
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\Savemate.Web.sourcelink.json

@@ -15,3 +15,4 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Application\obj\Debug\n
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Application\obj\Debug\net8.0\ref\Savemate.Application.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Application\bin\Debug\net8.0\Savemate.Application.runtimeconfig.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Application\obj\Debug\net8.0\Savemate.Application.genruntimeconfig.cache
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Application\obj\Debug\net8.0\Savemate.Application.sourcelink.json

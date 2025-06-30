@@ -9,13 +9,11 @@ namespace Savemate.Application.Interface.IRepositories
 {
     public interface IBaseRepository <T>  where T : class
     {
-        Task<T> AddAsync(object T);
         Task<T> GetByIdAsync(object id);
-
         Task<IEnumerable<T>> GetAllAsync();
-        
-        Task<T> UpdateAsync(object T);
-        Task DeleteAsync(object id);
-        
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+
     }
 }

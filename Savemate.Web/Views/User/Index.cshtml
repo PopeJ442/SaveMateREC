@@ -1,0 +1,40 @@
+﻿@using Savemate.Domain.Entities
+@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h2>Users</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">+ Add New User</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>FirstName</th>
+            <th>MiddleName</th>
+            <th>LastName</th>
+            <th>Date Of Birth</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName + @user.MiddleName</td>
+                <td>@user.MiddleName</td>
+                <td>@user.LastName</td>
+                <td>@user.DOB</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
