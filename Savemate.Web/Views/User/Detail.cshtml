@@ -1,0 +1,18 @@
+﻿@model Savemate.Domain.Entities.User
+
+@{
+    ViewData["Title"] = "User Details";
+    
+}
+
+<h2>User Details</h2>
+
+<div class="mb-3">
+    <strong>Full Name:</strong> @Model.FirstName @Model.MiddleName @Model.LastName
+</div>
+<div class="mb-3">
+    <strong>Age:</strong> @ViewBag.age
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

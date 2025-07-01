@@ -1,7 +1,12 @@
 ﻿@model Savemate.Domain.Entities.User
 
-<form asp-action="Edit" method="post">
-    <input type="hidden"  asp-for = "Id"/>
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h2>Create User</h2>
+
+<form asp-action="Create" method="post">
     <div class="form-group">
         <label asp-for="FirstName"></label>
         <input asp-for="FirstName" class="form-control" />
@@ -24,6 +29,6 @@
     </div>
     
 
-    <button type="submit" class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-success">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+</form>

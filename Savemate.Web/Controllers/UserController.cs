@@ -8,7 +8,8 @@ namespace Savemate.Web.Controllers
     public class UserController(IUserService userService) : Controller
     {
         private readonly IUserService _userService = userService;
-         
+
+        int age=9;
         public async Task<IActionResult> Index()
         {
            var users = await _userService.GetAllUsers();
@@ -40,33 +41,54 @@ namespace Savemate.Web.Controllers
         }
         public async Task<IActionResult> Edit(Guid id)
         {
-            var user = _userService.GetUserByIdAsync(id);
+            var user =await _userService.GetUserByIdAsync(id);
             if (user == null) return NotFound();
           
             return View(user);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(User user)
+        public async Task<IActionResult> Edit(User user)
         {
             if (!ModelState.IsValid) return NotFound();
-            _userService.UpdateUserAsync(user);
+
+          await  _userService.UpdateUserAsync(user);
             return RedirectToAction("Index");
         }
         
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var user =   _userService.GetUserByIdAsync(id);
+            var user = await  _userService.GetUserByIdAsync(id);
             if (user == null) return NotFound();
             return View(user);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmation(User user)
+        public async Task<IActionResult> DeleteConfirmation(User user)
         {
-              _userService.DeleteUserAsync(user);
+             await _userService.DeleteUserAsync(user);
             return RedirectToAction(nameof(Index));
 
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id) 
+        {
+         
+           
+           
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
+            age = DateTime.Now.Year - user.DOB.Year;
+
+            if (user.DOB.ToDateTime(TimeOnly.MinValue) > DateTime.Today.AddYears(-age))
+            {
+                age--;
+            }
+            ViewData["age"] = age;
+            return View(user);
+
+        }
+             
     }
 }
