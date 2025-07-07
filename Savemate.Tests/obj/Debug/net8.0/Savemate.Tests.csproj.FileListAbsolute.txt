@@ -191,6 +191,7 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.Tests.AssemblyInfoInputs.cache
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.Tests.AssemblyInfo.cs
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.Tests.csproj.CoreCompileInputs.cache
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.Tests.sourcelink.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.98AF462A.Up2Date
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\Savemate.Tests.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Tests\obj\Debug\net8.0\refint\Savemate.Tests.dll

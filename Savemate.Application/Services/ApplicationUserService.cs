@@ -1,6 +1,7 @@
 ﻿using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
+using Savemate.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,37 +10,38 @@ using System.Threading.Tasks;
 
 namespace Savemate.Application.Services
 {
-    public class UserService(IUserRepository userRepository) : IUserService
+    public class ApplicationUserService(IApplicationUserRepository userRepository) : IApplicationUserService
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IApplicationUserRepository _userRepository = userRepository;
 
       
-        public async Task<User> AddUserAsync(User user)
+        public async Task<ApplicationUser> AddUserAsync(ApplicationUser user)
         {
               await _userRepository.AddAsync(user);
               return user;
         }
          
-        public async Task  DeleteUserAsync(User user )
+        public async Task  DeleteUserAsync(ApplicationUser user )
         {
             await _userRepository.DeleteAsync(user);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
         {
               return  await _userRepository.GetAllAsync();
 
         }
 
-        public async Task<User> GetUserByIdAsync(Guid id)
+        public async Task<ApplicationUser> GetUserByIdAsync(string id)
         {
               return   await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<User> UpdateUserAsync(User user)
+        public async Task<ApplicationUser> UpdateUserAsync(ApplicationUser user)
         {
               await _userRepository.UpdateAsync(user);
               return user;
         }
+ 
     }
 }

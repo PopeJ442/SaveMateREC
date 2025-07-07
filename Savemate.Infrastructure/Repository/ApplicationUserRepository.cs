@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Savemate.Infrastructure.Repository
 {
-    public class UserRepository(SaveMateDbContext context) : BaseRepository<User>(context), IUserRepository
+    public class ApplicationUserRepository(SaveMateDbContext context) : BaseRepository<ApplicationUser>(context), IApplicationUserRepository
     {
     }
 }

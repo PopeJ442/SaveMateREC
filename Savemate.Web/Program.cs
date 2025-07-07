@@ -1,4 +1,6 @@
- 
+
+using Microsoft.AspNetCore.Identity;
+using Savemate.Infrastructure;
 using Savemate.Infrastructure.IoC;
  
 
@@ -8,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 DependencyInjection.AddingDbContext(builder.Services, builder.Configuration);
 DependencyInjection.Registering(builder.Services);
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SaveMateDbContext>().AddDefaultTokenProviders();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,6 +22,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseStaticFiles();
 
 app.UseRouting();

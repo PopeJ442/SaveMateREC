@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 using Savemate.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,9 +11,9 @@ using System.Threading.Tasks;
 namespace Savemate.Infrastructure
 {
     
-        public class SaveMateDbContext(DbContextOptions<SaveMateDbContext> options) : DbContext(options)
+        public class SaveMateDbContext(DbContextOptions<SaveMateDbContext> options) : IdentityDbContext<ApplicationUser>(options)
         {
-            public DbSet<User> Users { get; set; }
+          
             public DbSet<Category> Categories { get; set; }
             public DbSet<Transaction> Transactions { get; set; }
             public DbSet<Account> Accounts { get; set; }
