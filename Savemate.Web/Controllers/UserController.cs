@@ -29,6 +29,39 @@ namespace Savemate.Web.Controllers
         {
         return View();
         }
+      
+        public async Task<IActionResult> Detail(string id)
+        {
+
+
+
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
+
+            age = user.DOB.CalculateAge();
+
+            // age = DateTime.Now.Year - user.DOB.Year;
+
+
+            return View(user);
+
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
+
+            return View(user);
+        }
+
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
+            return View(user);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(ApplicationUser user) 
@@ -41,13 +74,7 @@ namespace Savemate.Web.Controllers
            return  RedirectToAction("Index");
         
         }
-        public async Task<IActionResult> Edit(string id)
-        {
-            var user =await _userService.GetUserByIdAsync(id);
-            if (user == null) return NotFound();
-          
-            return View(user);
-        }
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ApplicationUser user)
@@ -57,39 +84,17 @@ namespace Savemate.Web.Controllers
           await  _userService.UpdateUserAsync(user);
             return RedirectToAction("Index");
         }
-        
-        public async Task<IActionResult> Delete(string id)
-        {
-            var user = await  _userService.GetUserByIdAsync(id);
-            if (user == null) return NotFound();
-            return View(user);
-        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmation(ApplicationUser user)
+        public async Task<IActionResult> Delete(ApplicationUser user)
         {
              await _userService.DeleteUserAsync(user);
             return RedirectToAction(nameof(Index));
 
         }
         
-        [HttpGet]
-        public async Task<IActionResult> Detail(string id) 
-        {
-         
-           
-           
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user == null) return NotFound();
-
-            age = user.DOB.CalculateAge();
-
-           // age = DateTime.Now.Year - user.DOB.Year;
-
-             
-            return View(user);
-
-        }
+       
              
     }
 }

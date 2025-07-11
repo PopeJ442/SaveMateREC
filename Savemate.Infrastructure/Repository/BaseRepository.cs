@@ -41,6 +41,11 @@ namespace Savemate.Infrastructure.Repository
            _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveChangesAsync(T entity)
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 
 

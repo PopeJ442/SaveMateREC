@@ -12,8 +12,8 @@ using Savemate.Infrastructure;
 namespace Savemate.Infrastructure.Migrations
 {
     [DbContext(typeof(SaveMateDbContext))]
-    [Migration("20250707131726_Add Identity table")]
-    partial class AddIdentitytable
+    [Migration("20250711153756_adding new migration")]
+    partial class addingnewmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

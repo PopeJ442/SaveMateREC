@@ -1,4 +1,5 @@
-﻿using Savemate.Application.Interface.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
 using Savemate.Infrastructure;
@@ -20,10 +21,14 @@ namespace Savemate.Application.Services
               await _userRepository.AddAsync(user);
               return user;
         }
-         
-        public async Task  DeleteUserAsync(ApplicationUser user )
+
+        public async Task DeleteUserAsync(ApplicationUser user)
         {
-            await _userRepository.DeleteAsync(user);
+            var existingUser = await _userRepository.GetByIdAsync(user.Id);
+            if (existingUser == null)
+                throw new Exception("User not found");
+
+            await _userRepository.DeleteAsync(existingUser);
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
@@ -39,9 +44,22 @@ namespace Savemate.Application.Services
 
         public async Task<ApplicationUser> UpdateUserAsync(ApplicationUser user)
         {
-              await _userRepository.UpdateAsync(user);
-              return user;
+            var existingUser = await _userRepository.GetByIdAsync(user.Id);
+            if (existingUser == null) throw new Exception("User not found");
+
+            // Update the fields manually
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.MiddleName = user.MiddleName;
+            existingUser.DOB = user.DOB;
+            existingUser.Email = user.Email;
+            existingUser.UserName = user.Email;
+
+            await _userRepository.SaveChangesAsync(user);
+
+            return existingUser;
         }
- 
+
+
     }
 }
