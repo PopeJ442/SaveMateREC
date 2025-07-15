@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Savemate.Web.Controllers
 {
-    public class UserController(IApplicationUserService userService) : Controller
+    public class ApplicationUserController(IApplicationUserService userService) : Controller
     {
         private readonly IApplicationUserService _userService = userService;
 

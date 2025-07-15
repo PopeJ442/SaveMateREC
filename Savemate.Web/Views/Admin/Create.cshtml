@@ -1,0 +1,55 @@
+﻿@using Savemate.Domain
+@model User
+@{
+    ViewData["title"] = "Create";
+}
+@* <form method="post" asp-action="create">
+<h1>Create User</h1>
+<div class="form-group" >
+        <label asp-for="UserName"></label>
+        <input type="text" asp-for="UserName">
+        <span asp-validation-for="UserName" class="text-danger"></span>
+</div>
+<div class="form-group" >
+        <label asp-for="Email"></label>
+        <input type="text" asp-for="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+<div class="form-group" >
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password">
+        <span asp-validation-for="Password" class="text-danger"></span>
+</div>
+<div class="form-group" >
+        <label asp-for="ConfirmPassword"></label>
+        <input type="password" asp-for="ConfirmPassword">
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+</div>
+<button type="submit">Save </button>
+
+
+</form> *@
+
+<h1 class="bg-info text-white">Create User</h1>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

@@ -12,7 +12,7 @@ namespace Savemate.Infrastructure
     {
         public required string FirstName { get; set; }
         public string? MiddleName { get; set; }
-        public required string LastName { get; set; }
+        public   string LastName { get; set; }
         public DateOnly DOB { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
