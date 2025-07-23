@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Savemate.Domain;
 using Savemate.Infrastructure;
+using System.Threading.Tasks;
 
 
 namespace Savemate.Web.Controllers
@@ -30,10 +31,12 @@ namespace Savemate.Web.Controllers
             return View();
         }
 
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            return View(user);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(User user)
@@ -53,6 +56,8 @@ namespace Savemate.Web.Controllers
                     foreach (IdentityError error in result.Errors)
                     {
                         Console.WriteLine(error.Description);
+                        ModelState.AddModelError(string.Empty, error.Description);  
+
                     }
                 }
 
@@ -89,12 +94,35 @@ namespace Savemate.Web.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View(user);
         }
+    
+
+        [HttpPost]
+   
+        public async Task<IActionResult> DeleteConfirm(string id) 
+        {
+            ApplicationUser user =await _userManager.FindByIdAsync(id);
+
+            if (user != null) 
+            {
+            IdentityResult result =await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                    return RedirectToAction("Index");
+                else
+                    Errors(result);
+
+            }
+            else
+            {
+                ModelState.AddModelError("","User not found");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
         }
-
 
 
     }

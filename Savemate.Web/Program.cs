@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+DependencyInjection.IdentityOption(builder.Services);  
 DependencyInjection.AddingDbContext(builder.Services, builder.Configuration);
 DependencyInjection.Registering(builder.Services);
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SaveMateDbContext>().AddDefaultTokenProviders();
