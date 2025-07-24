@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Savemate.Web.Controllers
 {
-    public class AdminController(UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher) : Controller
+    public class AdminController(UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher, IPasswordValidator<ApplicationUser> passwordValidator, IUserValidator<ApplicationUser> userValidator) : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
-           private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
+        private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
+        private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
 
         public IActionResult Index()
         {
@@ -71,13 +73,25 @@ namespace Savemate.Web.Controllers
             ApplicationUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                if (!string.IsNullOrEmpty(email))
+                IdentityResult ValidateEmail = null;
+
+                if (!string.IsNullOrEmpty(email)) {
+
+
+                    ValidateEmail = await _userValidator.ValidateAsync(_userManager, user);
+                    if (ValidateEmail.Succeeded)
                     user.Email = email;
+                }
+              
                 else
                     ModelState.AddModelError("", "Email cannot be empty");
 
-                if (!string.IsNullOrEmpty(password))
+                IdentityResult validatePassword = null;
+                if (!string.IsNullOrEmpty(password)) {
+                   validatePassword = await _passwordValidator.ValidateAsync(_userManager,user,password);
+                    if (validatePassword.Succeeded)
                     user.PasswordHash = passwordHasher.HashPassword(user, password);
+                }
                 else
                     ModelState.AddModelError("", "Password cannot be empty");
 

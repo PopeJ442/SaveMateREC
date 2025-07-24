@@ -36,7 +36,7 @@ namespace Savemate.Infrastructure.IoC
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IPasswordValidator<ApplicationUser>, CustomPasswordPolicy>();
-           // services.AddScoped<IUserValidator<ApplicationUser>, CustomUserEmailPolicy>();
+            services.AddScoped<IUserValidator<ApplicationUser>, CustomUserEmailPolicy>();
         
         
         }
