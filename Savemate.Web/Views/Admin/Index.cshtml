@@ -37,3 +37,7 @@
         </tr>
     }
 </table>
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <a asp-controller="Authentication" asp-action="Logout" class="btn btn-danger">Logout</a>
+}

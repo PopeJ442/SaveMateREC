@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Savemate.Domain.Entities;
+using Savemate.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,10 @@ namespace Savemate.Infrastructure
     {
         public required string FirstName { get; set; }
         public string? MiddleName { get; set; }
-        public   string LastName { get; set; }
+        public required string LastName { get; set; }
+        
         public DateOnly DOB { get; set; }
+        public Country Country { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
         public virtual  ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();

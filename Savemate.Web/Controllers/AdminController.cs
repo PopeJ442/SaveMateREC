@@ -1,4 +1,5 @@
-﻿ 
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -15,7 +16,7 @@ namespace Savemate.Web.Controllers
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
         private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
-
+      [Authorize]
         public IActionResult Index()
         {
             var users = _userManager.Users.ToList();
@@ -46,7 +47,8 @@ namespace Savemate.Web.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser appUser = new ApplicationUser
-                { UserName = user.UserName, FirstName = user.UserName, LastName = "d", Email = user.Email };
+                { UserName = user.UserName, FirstName = user.UserName,MiddleName = user.MiddleName, LastName = user.LastName, Email = user.Email,
+                Country = user.Country };
 
                 IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
                 if (result.Succeeded)
@@ -74,7 +76,7 @@ namespace Savemate.Web.Controllers
             if (user != null)
             {
                 IdentityResult ValidateEmail = null;
-
+              
                 if (!string.IsNullOrEmpty(email)) {
 
 

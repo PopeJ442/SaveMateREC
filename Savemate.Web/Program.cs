@@ -8,11 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 DependencyInjection.IdentityOption(builder.Services);  
 DependencyInjection.AddingDbContext(builder.Services, builder.Configuration);
 DependencyInjection.Registering(builder.Services);
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SaveMateDbContext>().AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(opt => {
+    opt.LoginPath = "/Authentication/Login";
+    opt.Cookie.Name = ".AspNetCore.Identity.Application";
+    opt.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    opt.SlidingExpiration = true;
+
+
+        });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

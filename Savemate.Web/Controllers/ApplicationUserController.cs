@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Savemate.Application.Common.Extensions;
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Savemate.Web.Controllers
 {
+  //  [Authorize]
     public class ApplicationUserController(IApplicationUserService userService) : Controller
     {
         private readonly IApplicationUserService _userService = userService;
