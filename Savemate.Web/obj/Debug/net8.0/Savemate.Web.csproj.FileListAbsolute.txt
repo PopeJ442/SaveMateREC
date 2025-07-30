@@ -286,3 +286,6 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\Sa
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\Savemate.Web.genruntimeconfig.cache
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\ref\Savemate.Web.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Countries.dll
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\CountryData.dll
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Nager.Country.dll

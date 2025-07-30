@@ -2173,6 +2173,19 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
+      "Nager.Country/4.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -6466,6 +6479,33 @@
         "readme.md"
       ]
     },
+    "Nager.Country/4.2.0": {
+      "sha512": "n6Ab0/1EtNFwZAW6EObvdpuZW+O9yC4I3vjk/4txnp/RLfVTOiJev46QNOOFXG5FkJTYph84NhdycnpnFqUxZQ==",
+      "type": "package",
+      "path": "nager.country/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "icon.png",
+        "lib/net48/Nager.Country.dll",
+        "lib/net48/Nager.Country.xml",
+        "lib/net6.0/Nager.Country.dll",
+        "lib/net6.0/Nager.Country.xml",
+        "lib/net8.0/Nager.Country.dll",
+        "lib/net8.0/Nager.Country.xml",
+        "lib/net9.0/Nager.Country.dll",
+        "lib/net9.0/Nager.Country.xml",
+        "lib/netstandard2.0/Nager.Country.dll",
+        "lib/netstandard2.0/Nager.Country.xml",
+        "lib/netstandard2.1/Nager.Country.dll",
+        "lib/netstandard2.1/Nager.Country.xml",
+        "nager.country.4.2.0.nupkg.sha512",
+        "nager.country.nuspec",
+        "readme.txt"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -7894,6 +7934,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.6",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 9.0.0",
+      "Nager.Country >= 4.2.0",
       "Savemate.Application >= 1.0.0",
       "Savemate.Domain >= 1.0.0"
     ]
@@ -7986,6 +8027,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[9.0.0, )"
+          },
+          "Nager.Country": {
+            "target": "Package",
+            "version": "[4.2.0, )"
           }
         },
         "imports": [

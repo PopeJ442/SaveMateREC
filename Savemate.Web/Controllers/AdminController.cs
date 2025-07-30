@@ -1,31 +1,46 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Savemate.Domain;
 using Savemate.Infrastructure;
-using System.Threading.Tasks;
+using Savemate.Web.ViewModels;
+
 
 
 namespace Savemate.Web.Controllers
 {
     public class AdminController(UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher, IPasswordValidator<ApplicationUser> passwordValidator, IUserValidator<ApplicationUser> userValidator) : Controller
     {
+         
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
         private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
-      [Authorize]
+     // [Authorize]
         public IActionResult Index()
         {
             var users = _userManager.Users.ToList();
             return View(users);
         }
-
+    
         public IActionResult Create()
         {
-            return View();
+        
+
+
+            var countries = CountryHelper.GetAllCountries()
+        .Select(c => new SelectListItem
+        {
+            Text = c.CommonName,
+            Value = c.CommonName
+        }).ToList();
+
+            var viewModel = new RegisterViewModel
+            {
+                Countries = countries
+            };
+
+            return View(viewModel);
         }
 
 
@@ -34,41 +49,85 @@ namespace Savemate.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Delete(string id)
-        {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
-            return View(user);
-        }
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    ApplicationUser user = await _userManager.FindByIdAsync(id);
+        //    return View(user);
+        //}
 
 
+        //[HttpPost]
+        //public async Task<IActionResult> Create(RegisterViewModel user)
+        //{
+
+
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        ApplicationUser appUser = new ApplicationUser
+        //        { UserName = user.UserName, 
+        //            FirstName = user.UserName,
+        //            MiddleName = user.MiddleName,
+        //            LastName = user.LastName,
+        //            Email = user.Email,
+        //            Country = user.CountryCode
+        //        };
+
+        //        IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            foreach (IdentityError error in result.Errors)
+        //            {
+        //                Console.WriteLine(error.Description);
+        //                ModelState.AddModelError(string.Empty, error.Description);  
+
+        //            }
+        //        }
+
+        //    }
+        //    return View(user);
+        //}
         [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                ApplicationUser appUser = new ApplicationUser
-                { UserName = user.UserName, FirstName = user.UserName,MiddleName = user.MiddleName, LastName = user.LastName, Email = user.Email,
-                Country = user.Country };
-
-                IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    foreach (IdentityError error in result.Errors)
-                    {
-                        Console.WriteLine(error.Description);
-                        ModelState.AddModelError(string.Empty, error.Description);  
-
-                    }
-                }
-
+                model.Countries = CountryHelper.GetAllCountries()
+                    .Select(c => new SelectListItem { Value = c.CommonName, Text = c.CommonName })
+                    .ToList();
+                return View(model);
             }
-            return View(user);
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Country = model.CountryCode,
+                DOB = model.DOB
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            model.Countries = CountryHelper.GetAllCountries()
+                .Select(c => new SelectListItem { Value = c.CommonName, Text = c.CommonName })
+                .ToList();
+
+            return View(model);
         }
-           
+
         [HttpPost]
         public async Task<IActionResult> Update(string id, string email, string password)
         {
@@ -112,9 +171,9 @@ namespace Savemate.Web.Controllers
         }
     
 
-        [HttpPost]
+        [HttpGet]
    
-        public async Task<IActionResult> DeleteConfirm(string id) 
+        public async Task<IActionResult> Delete(string id) 
         {
             ApplicationUser user =await _userManager.FindByIdAsync(id);
 

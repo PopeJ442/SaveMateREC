@@ -33,9 +33,9 @@
 		<label for="">ConfirmPassword</label>
 		<input name="ConfirmPassword" class="form-control" />
 	</div>
-	<div class=" form-group">
+	@* <div class=" form-group">
 		<label asp-for="Country"></label>
 		<select asp-for="Country" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(Savemate.Domain.Enums.Country)))"></select>
-	</div>
+	</div> *@
 	<button type="submit" class="btn btn-primary">Save</button>
 </form>

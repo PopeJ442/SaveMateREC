@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Savemate.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8f2f8315440d02e2648dfda45993411100f108f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c966a35be8485cc48cb8400e1d4632116c005d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Savemate.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Savemate.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

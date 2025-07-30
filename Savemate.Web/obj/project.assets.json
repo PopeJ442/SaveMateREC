@@ -47,6 +47,32 @@
           }
         }
       },
+      "Countries.Net/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Countries.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Countries.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CountryData/6.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/CountryData.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/CountryData.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Humanizer/2.14.1": {
         "type": "package",
         "dependencies": {
@@ -2186,6 +2212,19 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
+      "Nager.Country/4.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Nager.Country.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -2957,6 +2996,7 @@
           "Microsoft.EntityFrameworkCore": "9.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "9.0.0",
+          "Nager.Country": "4.2.0",
           "Savemate.Application": "1.0.0",
           "Savemate.Domain": "1.0.0"
         },
@@ -3006,6 +3046,39 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "Countries.Net/1.1.0": {
+      "sha512": "rzTVVFjP4y2wexihX9xz5Pmyop8ShRHLeK/KkRYmn1FipR+eRWYvxyfNKBX4XPSIeMEJc8zu8+NJtoNh/dMJag==",
+      "type": "package",
+      "path": "countries.net/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "countries.net.1.1.0.nupkg.sha512",
+        "countries.net.nuspec",
+        "lib/netstandard2.0/Countries.dll",
+        "lib/netstandard2.0/Countries.xml",
+        "logo.png"
+      ]
+    },
+    "CountryData/6.13.0": {
+      "sha512": "jQ402nBQo6F4T9bz99iZIH8udDdsqfUNZpseEcczybb1u/ceQJtjDkCG1nSYo8IqDHh3VGZ4GrxnMn3z5XoG+A==",
+      "type": "package",
+      "path": "countrydata/6.13.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "_manifest/spdx_2.2/manifest.spdx.json",
+        "_manifest/spdx_2.2/manifest.spdx.json.sha256",
+        "countrydata.6.13.0.nupkg.sha512",
+        "countrydata.nuspec",
+        "icon.png",
+        "lib/net8.0/CountryData.dll",
+        "lib/net8.0/CountryData.xml",
+        "lib/net9.0/CountryData.dll",
+        "lib/net9.0/CountryData.xml"
       ]
     },
     "Humanizer/2.14.1": {
@@ -6510,6 +6583,33 @@
         "readme.md"
       ]
     },
+    "Nager.Country/4.2.0": {
+      "sha512": "n6Ab0/1EtNFwZAW6EObvdpuZW+O9yC4I3vjk/4txnp/RLfVTOiJev46QNOOFXG5FkJTYph84NhdycnpnFqUxZQ==",
+      "type": "package",
+      "path": "nager.country/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "icon.png",
+        "lib/net48/Nager.Country.dll",
+        "lib/net48/Nager.Country.xml",
+        "lib/net6.0/Nager.Country.dll",
+        "lib/net6.0/Nager.Country.xml",
+        "lib/net8.0/Nager.Country.dll",
+        "lib/net8.0/Nager.Country.xml",
+        "lib/net9.0/Nager.Country.dll",
+        "lib/net9.0/Nager.Country.xml",
+        "lib/netstandard2.0/Nager.Country.dll",
+        "lib/netstandard2.0/Nager.Country.xml",
+        "lib/netstandard2.1/Nager.Country.dll",
+        "lib/netstandard2.1/Nager.Country.xml",
+        "nager.country.4.2.0.nupkg.sha512",
+        "nager.country.nuspec",
+        "readme.txt"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -7937,6 +8037,8 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Countries.Net >= 1.1.0",
+      "CountryData >= 6.13.0",
       "Microsoft.AspNet.Identity.Core >= 2.2.4",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.17",
       "Microsoft.EntityFrameworkCore >= 9.0.6",
@@ -8013,6 +8115,14 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Countries.Net": {
+            "target": "Package",
+            "version": "[1.1.0, )"
+          },
+          "CountryData": {
+            "target": "Package",
+            "version": "[6.13.0, )"
+          },
           "Microsoft.AspNet.Identity.Core": {
             "target": "Package",
             "version": "[2.2.4, )"

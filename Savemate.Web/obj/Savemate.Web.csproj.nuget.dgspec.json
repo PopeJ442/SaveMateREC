@@ -255,6 +255,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Nager.Country": {
+              "target": "Package",
+              "version": "[4.2.0, )"
             }
           },
           "imports": [
@@ -336,6 +340,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Countries.Net": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "CountryData": {
+              "target": "Package",
+              "version": "[6.13.0, )"
+            },
             "Microsoft.AspNet.Identity.Core": {
               "target": "Package",
               "version": "[2.2.4, )"

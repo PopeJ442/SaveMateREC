@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v8.0": {
       "Savemate.Web/1.0.0": {
         "dependencies": {
+          "Countries.Net": "1.1.0",
+          "CountryData": "6.13.0",
           "Microsoft.AspNet.Identity.Core": "2.2.4",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.17",
           "Microsoft.EntityFrameworkCore": "9.0.6",
@@ -55,6 +57,22 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.11.4.0",
             "fileVersion": "1.1100.424.31005"
+          }
+        }
+      },
+      "Countries.Net/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Countries.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        }
+      },
+      "CountryData/6.13.0": {
+        "runtime": {
+          "lib/net8.0/CountryData.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -1806,6 +1824,14 @@
           }
         }
       },
+      "Nager.Country/4.2.0": {
+        "runtime": {
+          "lib/net8.0/Nager.Country.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "runtime": {
           "lib/net6.0/Newtonsoft.Json.dll": {
@@ -2194,6 +2220,7 @@
           "Microsoft.EntityFrameworkCore": "9.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "9.0.0",
+          "Nager.Country": "4.2.0",
           "Savemate.Application": "1.0.0",
           "Savemate.Domain": "1.0.0"
         },
@@ -2225,6 +2252,20 @@
       "sha512": "sha512-Sf4BoE6Q3jTgFkgBkx7qztYOFELBCo+wQgpYDwal/qJ1unBH73ywPztIJKXBXORRzAeNijsuxhk94h0TIMvfYg==",
       "path": "azure.identity/1.11.4",
       "hashPath": "azure.identity.1.11.4.nupkg.sha512"
+    },
+    "Countries.Net/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rzTVVFjP4y2wexihX9xz5Pmyop8ShRHLeK/KkRYmn1FipR+eRWYvxyfNKBX4XPSIeMEJc8zu8+NJtoNh/dMJag==",
+      "path": "countries.net/1.1.0",
+      "hashPath": "countries.net.1.1.0.nupkg.sha512"
+    },
+    "CountryData/6.13.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jQ402nBQo6F4T9bz99iZIH8udDdsqfUNZpseEcczybb1u/ceQJtjDkCG1nSYo8IqDHh3VGZ4GrxnMn3z5XoG+A==",
+      "path": "countrydata/6.13.0",
+      "hashPath": "countrydata.6.13.0.nupkg.sha512"
     },
     "Humanizer/2.14.1": {
       "type": "package",
@@ -3030,6 +3071,13 @@
       "sha512": "sha512-YqueG52R/Xej4VVbKuRIodjiAhV0HR/XVbLbNrJhCZnzjnSjgMJ/dCdV0akQQxavX6hp/LC6rqLGLcXeQYU7XA==",
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
+    },
+    "Nager.Country/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-n6Ab0/1EtNFwZAW6EObvdpuZW+O9yC4I3vjk/4txnp/RLfVTOiJev46QNOOFXG5FkJTYph84NhdycnpnFqUxZQ==",
+      "path": "nager.country/4.2.0",
+      "hashPath": "nager.country.4.2.0.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.3": {
       "type": "package",

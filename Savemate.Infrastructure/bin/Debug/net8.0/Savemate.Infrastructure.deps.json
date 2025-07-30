@@ -14,6 +14,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.6",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "9.0.0",
+          "Nager.Country": "4.2.0",
           "Savemate.Application": "1.0.0",
           "Savemate.Domain": "1.0.0"
         },
@@ -1796,6 +1797,14 @@
           }
         }
       },
+      "Nager.Country/4.2.0": {
+        "runtime": {
+          "lib/net8.0/Nager.Country.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "runtime": {
           "lib/net6.0/Newtonsoft.Json.dll": {
@@ -3032,6 +3041,13 @@
       "sha512": "sha512-YqueG52R/Xej4VVbKuRIodjiAhV0HR/XVbLbNrJhCZnzjnSjgMJ/dCdV0akQQxavX6hp/LC6rqLGLcXeQYU7XA==",
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
+    },
+    "Nager.Country/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-n6Ab0/1EtNFwZAW6EObvdpuZW+O9yC4I3vjk/4txnp/RLfVTOiJev46QNOOFXG5FkJTYph84NhdycnpnFqUxZQ==",
+      "path": "nager.country/4.2.0",
+      "hashPath": "nager.country.4.2.0.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.3": {
       "type": "package",

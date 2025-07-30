@@ -255,6 +255,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Nager.Country": {
+              "target": "Package",
+              "version": "[4.2.0, )"
             }
           },
           "imports": [

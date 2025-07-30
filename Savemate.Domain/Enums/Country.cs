@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace Savemate.Domain.Enums
 {
-    public enum Country
-    {
-        Ghana,
-        USA,
-        UK,
-    }
+    //public enum Country
+    //{
+    //    Ghana,
+    //    USA,
+    //    UK,
+    //}
 }
+
+//public int id { get; set; }
+//public string Code { get; set; }
+//public string Name { get; set; }
+//public string FlagEmoji { get; set; }  
+//    }

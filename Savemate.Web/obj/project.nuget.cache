@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "PhY/ax+VOAc=",
+  "dgSpecHash": "L44QS9L6Hww=",
   "success": true,
   "projectFilePath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\Savemate.Web\\Savemate.Web\\Savemate.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\POPE\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\POPE\\.nuget\\packages\\countries.net\\1.1.0\\countries.net.1.1.0.nupkg.sha512",
+    "C:\\Users\\POPE\\.nuget\\packages\\countrydata\\6.13.0\\countrydata.6.13.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -121,6 +123,7 @@
     "C:\\Users\\POPE\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.utils\\9.0.0\\microsoft.visualstudio.web.codegeneration.utils.9.0.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\9.0.0\\microsoft.visualstudio.web.codegenerators.mvc.9.0.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\POPE\\.nuget\\packages\\nager.country\\4.2.0\\nager.country.4.2.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\nuget.common\\6.11.0\\nuget.common.6.11.0.nupkg.sha512",
     "C:\\Users\\POPE\\.nuget\\packages\\nuget.configuration\\6.11.0\\nuget.configuration.6.11.0.nupkg.sha512",

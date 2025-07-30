@@ -1,6 +1,7 @@
 ﻿@using Savemate.Domain
 @using Savemate.Domain.Enums
-@model User
+@using Savemate.Web.ViewModels
+@model RegisterViewModel
 @{
     ViewData["title"] = "Create";
 }
@@ -15,6 +16,10 @@
     <div class="form-group">
         <label asp-for="UserName"></label>
         <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="MiddleName"></label>
@@ -35,12 +40,67 @@
     <div class="form-group">
         <label asp-for="ConfirmPassword"></label>
         <input asp-for="ConfirmPassword" class="form-control" />
-    </div>
-    <div class=" form-group">
-        <label asp-for="Country"></label>
-       <select asp-for="Country" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(Country)))">
-       <option selected disabled value="Select your Country">Select Country</option>
+    </div>  
+    <div class="form-group">
+        <label asp-for="CountryCode"></label>
+        <select asp-for="CountryCode" class="form-control" asp-items="Model.Countries">
+            <option selected disabled value="">Select your Country</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
+
+
+
+
+
+
+@* 
+
+        @using Savemate.Domain
+@using Savemate.Domain.Enums
+@using Savemate.Web.ViewModels
+@model UserCountry
+@{
+    ViewData["title"] = "Create";
+}
+ 
+
+<h1 class="bg-info text-white">Create User</h1>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="user.UserName"></label>
+        <input asp-for="user.UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="user.MiddleName"></label>
+        <input asp-for="user.MiddleName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="user.LastName"></label>
+        <input asp-for="user.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="user.Email"></label>
+        <input asp-for="user.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="user.Password"></label>
+        <input asp-for="user.Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="user.ConfirmPassword"></label>
+        <input asp-for="user.ConfirmPassword" class="form-control" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="country.Name"></label>
+       <select asp-for="country.Name" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(Country)))">
+       <option selected disabled value="Select your Country">Select Country</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form> *@
