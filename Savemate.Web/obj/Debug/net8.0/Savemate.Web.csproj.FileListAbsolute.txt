@@ -289,3 +289,4 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\obj\Debug\net8.0\st
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Countries.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\CountryData.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Nager.Country.dll
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll

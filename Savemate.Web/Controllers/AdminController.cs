@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Savemate.Domain;
@@ -16,7 +17,7 @@ namespace Savemate.Web.Controllers
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
         private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
-     // [Authorize]
+      [Authorize]
         public IActionResult Index()
         {
             var users = _userManager.Users.ToList();
@@ -110,7 +111,8 @@ namespace Savemate.Web.Controllers
                 LastName = model.LastName,
                 Email = model.Email,
                 Country = model.CountryCode,
-                DOB = model.DOB
+                DOB = model.DOB,
+                TwoFactorEnabled = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -132,6 +134,9 @@ namespace Savemate.Web.Controllers
         public async Task<IActionResult> Update(string id, string email, string password)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);
+           
+            user.TwoFactorEnabled = true;
+          
             if (user != null)
             {
                 IdentityResult ValidateEmail = null;

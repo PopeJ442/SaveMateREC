@@ -21,12 +21,13 @@ namespace Savemate.Infrastructure.CustomPolicy
                     Description = "Google cannot be used as a user name"
                 });
             }
-            if (!user.Email.ToLower().EndsWith("@gmail.com"))
+            if (!user.Email.ToLower().EndsWith("@gmail.com") && !user.Email.ToLower().EndsWith("@yopmail.com"))
             {
-                errors.Add(new IdentityError {
-                
-                Description = "Only google mails are allowed"
-                
+                errors.Add(new IdentityError
+                {
+
+                    Description = "This mail is not valid"
+
                 });
             }
 
