@@ -122,9 +122,9 @@ namespace Savemate.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(twoFactor.TwoFactorCode);
+                return View(twoFactor);
             }
-
+             
             var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
             if (result.Succeeded)
             {
@@ -133,7 +133,7 @@ namespace Savemate.Web.Controllers
             else
             {
                 ModelState.AddModelError("", "Invalid Login Attempt");
-                return View();
+                return View(twoFactor);
             }
         }
     }
