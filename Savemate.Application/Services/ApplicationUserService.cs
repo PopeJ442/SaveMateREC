@@ -3,12 +3,7 @@ using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
 using Savemate.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+ 
 namespace Savemate.Application.Services
 {
     public class ApplicationUserService(IApplicationUserRepository userRepository) : IApplicationUserService
