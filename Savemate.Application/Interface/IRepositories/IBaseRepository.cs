@@ -14,7 +14,7 @@ namespace Savemate.Application.Interface.IRepositories
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-        Task SaveChangesAsync(T entity);
+        Task SaveChangesAsync();
 
     }
 }

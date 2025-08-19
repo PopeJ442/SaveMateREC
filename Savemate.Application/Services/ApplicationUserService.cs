@@ -50,7 +50,7 @@ namespace Savemate.Application.Services
             existingUser.Email = user.Email;
             existingUser.UserName = user.Email;
 
-            await _userRepository.SaveChangesAsync(user);
+            await _userRepository.SaveChangesAsync( );
 
             return existingUser;
         }

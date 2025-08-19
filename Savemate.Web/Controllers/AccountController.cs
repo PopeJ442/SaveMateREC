@@ -1,14 +1,122 @@
 ﻿using Microsoft.AspNetCore.Mvc;
- 
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Savemate.Application.Services;
+using Savemate.Application.Services.IService;
+using Savemate.Domain.Entities;
+using Savemate.Web.ViewModels;
+
 
 namespace Savemate.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(IAccountService accountService) : Controller
     {
-        public IActionResult Index()
+        private readonly IAccountService _accountService = accountService;
+
+        public async Task<IActionResult> Index()
         {
+            var accounts = await _accountService.GetAllAccount();
+
+          
+
+            var viewModel = accounts.Select(a => new AccountViewModel {
             
-            return View();
+            Id = a.Id,
+            Name = a.Name,
+            Type = a.Type,
+            InitialBalance = a.InitialBalance,
+            
+            
+            }).ToList();
+
+
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult CreateAccount()
+        {
+            return View(new AccountViewModel());
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAccount(AccountViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+
+            }
+
+            var account = new Account
+            {
+                Name = model.Name,
+                Type = model.Type,
+                InitialBalance = model.InitialBalance,
+
+
+            };
+            await _accountService.AddAccount(account);
+            return RedirectToAction(nameof(Index));
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var account = await _accountService.GetAccountById(id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+            var model = new AccountViewModel
+            {
+                Id = account.Id,
+                Name = account.Name,
+                Type = account.Type,
+                InitialBalance = account.InitialBalance
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAccount(AccountViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var account = await _accountService.GetAccountById(model.Id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+             account.Name = model.Name;
+            account.Type = model.Type;
+            account.InitialBalance = model.InitialBalance;
+
+            await _accountService.UpdateAccount(account);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> DeleteAccount(int id)
+        {
+            var account = await _accountService.GetAccountById(id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            await _accountService.DeleteAccount(account);
+            return RedirectToAction(nameof(Index));
         }
     }
+
+
+
+
 }

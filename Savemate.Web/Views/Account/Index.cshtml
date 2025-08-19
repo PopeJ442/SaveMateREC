@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Savemate.Web.ViewModels.AccountViewModel>
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<h2>Accounts</h2>
+
+<p>
+    <a asp-action="CreateAccount" class="btn btn-primary">+ Create New Account</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().Name)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Type)</th>
+            <th>@Html.DisplayNameFor(m => m.First().InitialBalance)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.Name</td>
+                <td>@account.Type</td>
+                <td>@account.InitialBalance.ToString("C")</td>
+                <td>
+                    <a asp-action="EditAccount" asp-route-id="@account.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="DeleteAccount" asp-route-id="@account.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
