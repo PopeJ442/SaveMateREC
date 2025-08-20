@@ -1,7 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Savemate.Application.Common.Extensions;
 using Savemate.Domain.Entities;
 using Savemate.Infrastructure;
@@ -11,12 +11,133 @@ using System.Security.Claims;
 
 namespace Savemate.Web.Controllers
 {
-    public class AuthenticationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager) : Controller
+    public class AuthenticationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher, IPasswordValidator<ApplicationUser> passwordValidator, IUserValidator<ApplicationUser> userValidator) : Controller
+    
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager= signInManager;
 
-        [AllowAnonymous]
+         
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
+        private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
+        private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
+
+
+        public IActionResult Register()
+        {
+
+
+
+            var countries = CountryHelper.GetAllCountries()
+        .Select(c => new SelectListItem
+        {
+            Text = c.CommonName,
+            Value = c.CommonName
+        }).ToList();
+
+            var viewModel = new RegisterViewModel
+            {
+                Countries = countries
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Countries = CountryHelper.GetAllCountries()
+                    .Select(c => new SelectListItem { Value = c.CommonName, Text = c.CommonName })
+                    .ToList();
+                return View(model);
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Country = model.CountryCode,
+                DOB = model.DOB,
+                TwoFactorEnabled = true
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index");
+            }
+         
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            model.Countries = CountryHelper.GetAllCountries()
+                .Select(c => new SelectListItem { Value = c.CommonName, Text = c.CommonName })
+                .ToList();
+
+            return View(model);
+        }
+
+        public IActionResult Update()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+                return NotFound();
+             
+            user.Email = model.Email;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                return View(model);
+            }
+             
+            if (!string.IsNullOrEmpty(model.NewPassword))
+            {
+                var passwordResult = await _userManager.ChangePasswordAsync(
+                    user,
+                    model.OldPassword,
+                    model.NewPassword
+                );
+
+                if (!passwordResult.Succeeded)
+                {
+                    foreach (var error in passwordResult.Errors)
+                        ModelState.AddModelError("", error.Description);
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private void Errors(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
         public IActionResult Login(string returnUrl)
         {
             Login login = new Login();
@@ -45,10 +166,10 @@ namespace Savemate.Web.Controllers
                     if (result.Succeeded)
                         return Redirect(login.ReturnUrl ?? "/");
 
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToAction("LoginTwoStep", new { appUser.Email, login.ReturnUrl });
-                    }
+                    //if (result.RequiresTwoFactor)
+                    //{
+                    //    return RedirectToAction("LoginTwoStep", new { appUser.Email, login.ReturnUrl });
+                    //}
                 }
                 ModelState.AddModelError(nameof(login.Email), "Login Failed: Invalid Email or password");
             }

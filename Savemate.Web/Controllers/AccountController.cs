@@ -1,17 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Savemate.Application.Services;
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
+using Savemate.Infrastructure;
 using Savemate.Web.ViewModels;
 
 
 namespace Savemate.Web.Controllers
 {
-    public class AccountController(IAccountService accountService) : Controller
+    public class AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager) : Controller
     {
         private readonly IAccountService _accountService = accountService;
-
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var accounts = await _accountService.GetAllAccount();
@@ -32,7 +36,7 @@ namespace Savemate.Web.Controllers
 
             return View(viewModel);
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult CreateAccount()
         {
@@ -49,13 +53,14 @@ namespace Savemate.Web.Controllers
                 return View(model);
 
             }
+            var userId = _userManager.GetUserId(User);
 
             var account = new Account
             {
                 Name = model.Name,
                 Type = model.Type,
                 InitialBalance = model.InitialBalance,
-
+                 UserId = userId,
 
             };
             await _accountService.AddAccount(account);
