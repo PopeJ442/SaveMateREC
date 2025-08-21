@@ -31,6 +31,7 @@ namespace Savemate.Infrastructure
                     .HasOne(a => a.User)
                     .WithMany(u => u.Accounts)
                     .HasForeignKey(a => a.UserId)
+                    .HasPrincipalKey(u => u.Id)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 // User → Transaction (1:M)
