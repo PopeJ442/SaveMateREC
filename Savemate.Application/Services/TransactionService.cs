@@ -1,11 +1,13 @@
-﻿using Savemate.Application.Interface.IRepositories;
-using Savemate.Application.Interface.IServices;
-using Savemate.Application.Services.IService;
-using Savemate.Domain.Entities;
-using Savemate.Domain.Enums;
-
-namespace Savemate.Application.Services
+﻿namespace Savemate.Application.Services
 {
+    using Savemate.Application.Interface.IRepositories;
+    using Savemate.Application.Interfaces.Repositories;
+    using Savemate.Application.Interfaces.Services;
+    using Savemate.Domain.Entities;
+    using Savemate.Domain.Enums;
+    using System;
+    using System.Threading.Tasks;
+
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
@@ -19,71 +21,77 @@ namespace Savemate.Application.Services
             _accountRepository = accountRepository;
         }
 
-        // 🔹 Add new transaction
-        public async Task<Transaction> AddTransactionAsync(Transaction transaction, string userId, CancellationToken ct = default)
+        public async Task<Transaction?> GetTransactionAsync(int id, string userId)
         {
-            // Validate account(s)
-            if (transaction.FromAccountId.HasValue)
+            var tx = await _transactionRepository.GetByIdAsync(id);
+            return (tx != null && tx.UserId == userId) ? tx : null;
+        }
+
+        public async Task<IEnumerable<Transaction>> GetTransactionsByUserAsync(string userId)
+        {
+            return await _transactionRepository.GetByUserIdAsync(userId);
+        }
+
+        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
+        {
+            // Fetch accounts if applicable
+            var fromAccount = transaction.FromAccountId.HasValue
+                ? await _accountRepository.GetByIdAsync(transaction.FromAccountId.Value)
+                : null;
+
+            var toAccount = transaction.ToAccountId.HasValue
+                ? await _accountRepository.GetByIdAsync(transaction.ToAccountId.Value)
+                : null;
+
+            // Apply business rules
+            switch (transaction.Type)
             {
-                var fromAccount = await _accountRepository.GetByIdAsync(transaction.FromAccountId.Value, userId, ct);
-                if (fromAccount == null)
-                    throw new InvalidOperationException("Invalid source account.");
+                case TransactionTypeEnum.Income:
+                    if (toAccount == null)
+                        throw new InvalidOperationException("Income must have a ToAccount.");
+                    toAccount.InitialBalance += transaction.Amount;
+                    break;
+
+                case TransactionTypeEnum.Expense:
+                    if (fromAccount == null)
+                        throw new InvalidOperationException("Expense must have a FromAccount.");
+                    if (fromAccount.InitialBalance < transaction.Amount)
+                        throw new InvalidOperationException("Insufficient funds.");
+                    fromAccount.InitialBalance -= transaction.Amount;
+                    break;
+
+                case TransactionTypeEnum.Transfer:
+                    if (fromAccount == null || toAccount == null)
+                        throw new InvalidOperationException("Transfer must have both accounts.");
+                    if (fromAccount.InitialBalance < transaction.Amount)
+                        throw new InvalidOperationException("Insufficient funds.");
+                    fromAccount.InitialBalance -= transaction.Amount;
+                    toAccount.InitialBalance += transaction.Amount;
+                    break;
             }
 
-            if (transaction.ToAccountId.HasValue)
-            {
-                var toAccount = await _accountRepository.GetByIdAsync(transaction.ToAccountId.Value, userId, ct);
-                if (toAccount == null)
-                    throw new InvalidOperationException("Invalid destination account.");
-            }
+            // Persist
+            await _transactionRepository.AddAsync(transaction);
+            await _transactionRepository.SaveChangesAsync();
 
-            return await _transactionRepository.AddAsync(transaction, userId, ct);
+            return transaction;
         }
 
-        // 🔹 Update transaction
-        public async Task<Transaction?> UpdateTransactionAsync(Transaction transaction, string userId, CancellationToken ct = default)
+        public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
         {
-            return await _transactionRepository.UpdateAsync(transaction, userId, ct);
+            await _transactionRepository.UpdateAsync(transaction);
+            await _transactionRepository.SaveChangesAsync();
+            return transaction;
         }
 
-        // 🔹 Delete transaction
-        public async Task<bool> DeleteTransactionAsync(int id, string userId, CancellationToken ct = default)
+        public async Task DeleteTransactionAsync(int id, string userId)
         {
-            return await _transactionRepository.DeleteAsync(id, userId, ct);
-        }
+            var tx = await GetTransactionAsync(id, userId);
+            if (tx == null)
+                throw new InvalidOperationException("Transaction not found or unauthorized.");
 
-        // 🔹 Get single transaction
-        public async Task<Transaction?> GetTransactionByIdAsync(int id, string userId, CancellationToken ct = default)
-        {
-            return await _transactionRepository.GetByIdAsync(id, userId, ct);
-        }
-
-        // 🔹 Get transactions by user (with filters + pagination)
-        public async Task<IReadOnlyList<Transaction>> ListTransactionsByUserAsync(
-            string userId,
-            DateTime? from = null,
-            DateTime? to = null,
-            int? accountId = null,
-            int? categoryId = null,
-            TransactionTypeEnum? type = null,
-            int skip = 0,
-            int take = 100,
-            CancellationToken ct = default)
-        {
-            return await _transactionRepository.ListByUserAsync(
-                userId, from, to, accountId, categoryId, type, skip, take, ct);
-        }
-
-        // 🔹 Get sum of transactions (e.g., total expenses, total income)
-        public async Task<decimal> GetTransactionSumAsync(
-            string userId,
-            DateTime? from = null,
-            DateTime? to = null,
-            int? accountId = null,
-            TransactionTypeEnum? type = null,
-            CancellationToken ct = default)
-        {
-            return await _transactionRepository.SumAsync(userId, from, to, accountId, type, ct);
+            await _transactionRepository.DeleteAsync(tx);
+            await _transactionRepository.SaveChangesAsync();
         }
     }
 }

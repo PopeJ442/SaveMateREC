@@ -37,5 +37,10 @@ namespace Savemate.Application.Services
         {
             return await _accountRepository.GetAllAsync();
         }
+
+        public Task<IEnumerable<object>> GetAccountsByUserAsync(string? userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

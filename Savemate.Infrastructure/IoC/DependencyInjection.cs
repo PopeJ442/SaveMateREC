@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Savemate.Application.Interface.IRepositories;
+using Savemate.Application.Interfaces.Repositories;
+using Savemate.Application.Interfaces.Services;
 using Savemate.Application.Services;
 using Savemate.Application.Services.IService;
 using Savemate.Infrastructure.CustomPolicy;
+using Savemate.Infrastructure.Repositories;
 using Savemate.Infrastructure.Repository;
  
 
@@ -37,13 +40,18 @@ namespace Savemate.Infrastructure.IoC
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPasswordValidator<ApplicationUser>, CustomPasswordPolicy>();
             services.AddScoped<IUserValidator<ApplicationUser>, CustomUserEmailPolicy>();
-        
-        
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionService,TransactionService>();
+
+
+
         }
 
-         
-       
+
+
     }
 }

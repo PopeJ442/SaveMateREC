@@ -1,3 +1,9 @@
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.AssemblyInfo.cs
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.sourcelink.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Infrastructure.deps.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Infrastructure.runtimeconfig.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Infrastructure.dll
@@ -6,12 +12,6 @@ C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debu
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Domain.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Application.pdb
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\bin\Debug\net8.0\Savemate.Domain.pdb
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.csproj.AssemblyReference.cache
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.AssemblyInfoInputs.cache
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.AssemblyInfo.cs
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.csproj.CoreCompileInputs.cache
-C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.sourcelink.json
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.40175A6A.Up2Date
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\Savemate.Infrastructure.dll
 C:\Users\POPE\Documents\ToTheWorld\Savemate.Web\Savemate.Infrastructure\obj\Debug\net8.0\refint\Savemate.Infrastructure.dll

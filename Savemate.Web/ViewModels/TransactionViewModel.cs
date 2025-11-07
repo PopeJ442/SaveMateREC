@@ -1,6 +1,6 @@
 ﻿using Savemate.Domain.Enums;
-using Savemate.Web.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Savemate.Application.ViewModels
 {
@@ -9,14 +9,19 @@ namespace Savemate.Application.ViewModels
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Transaction Type")]
+        public TransactionTypeEnum Type { get; set; } = TransactionTypeEnum.Expense;
+
+        [Required]
+        [Display(Name = "Amount")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
         public decimal Amount { get; set; }
 
         [Required]
-        public TransactionTypeEnum Type { get; set; }
+        [Display(Name = "Date")]
+        public DateTime Date { get; set; } = DateTime.Now;
 
-        [Required]
-        public DateTime Date { get; set; }
-
+        [Display(Name = "Note")]
         public string? Note { get; set; }
 
         [Display(Name = "From Account")]
@@ -26,9 +31,15 @@ namespace Savemate.Application.ViewModels
         public int? ToAccountId { get; set; }
 
         [Display(Name = "Category")]
-        public int? CategoryId { get; set; }
+        public CategoryTypeEnum Category { get; set; }
 
-        // For dropdowns in Create/Edit views
-        public IEnumerable<AccountViewModel>? Accounts { get; set; } 
+        // --- Dropdowns ---
+        public IEnumerable<SelectListItem>? Accounts { get; set; }
+        public IEnumerable<SelectListItem>? Categories { get; set; }
+
+        // --- Convenience properties ---
+        public string? FromAccountName { get; set; }
+        public string? ToAccountName { get; set; }
+        public string? CategoryName { get; set; }
     }
 }

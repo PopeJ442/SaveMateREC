@@ -12,8 +12,8 @@ using Savemate.Infrastructure;
 namespace Savemate.Infrastructure.Migrations
 {
     [DbContext(typeof(SaveMateDbContext))]
-    [Migration("20250821180942_removeUserId")]
-    partial class removeUserId
+    [Migration("20251107125135_FixTransactoinUsersFk")]
+    partial class FixTransactoinUsersFk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,14 +180,9 @@ namespace Savemate.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Accounts");
                 });
@@ -200,9 +195,6 @@ namespace Savemate.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -210,12 +202,11 @@ namespace Savemate.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserId");
 
@@ -233,12 +224,6 @@ namespace Savemate.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -254,14 +239,11 @@ namespace Savemate.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("FromAccountId");
 
@@ -270,31 +252,6 @@ namespace Savemate.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("Savemate.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("DOB")
-                        .HasColumnType("date");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Savemate.Infrastructure.ApplicationUser", b =>
@@ -439,20 +396,12 @@ namespace Savemate.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Savemate.Domain.Entities.User", null)
-                        .WithMany("Accounts")
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Savemate.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("Savemate.Infrastructure.ApplicationUser", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Savemate.Domain.Entities.User", "User")
+                    b.HasOne("Savemate.Infrastructure.ApplicationUser", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -463,15 +412,6 @@ namespace Savemate.Infrastructure.Migrations
 
             modelBuilder.Entity("Savemate.Domain.Entities.Transaction", b =>
                 {
-                    b.HasOne("Savemate.Infrastructure.ApplicationUser", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Savemate.Domain.Entities.Category", "Category")
-                        .WithMany("Transactions")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Savemate.Domain.Entities.Account", "FromAccount")
                         .WithMany("TransactionsFrom")
                         .HasForeignKey("FromAccountId")
@@ -482,13 +422,11 @@ namespace Savemate.Infrastructure.Migrations
                         .HasForeignKey("ToAccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Savemate.Domain.Entities.User", "User")
+                    b.HasOne("Savemate.Infrastructure.ApplicationUser", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("FromAccount");
 
@@ -502,20 +440,6 @@ namespace Savemate.Infrastructure.Migrations
                     b.Navigation("TransactionsFrom");
 
                     b.Navigation("TransactionsTo");
-                });
-
-            modelBuilder.Entity("Savemate.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("Savemate.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Accounts");
-
-                    b.Navigation("Categories");
-
-                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Savemate.Infrastructure.ApplicationUser", b =>

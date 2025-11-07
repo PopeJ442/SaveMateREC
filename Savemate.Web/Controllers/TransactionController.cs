@@ -1,157 +1,221 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Savemate.Application.Interface.IServices;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Savemate.Application.Interfaces.Services;
+using Savemate.Application.Services;
 using Savemate.Application.Services.IService;
 using Savemate.Application.ViewModels;
 using Savemate.Domain.Entities;
+using Savemate.Domain.Enums;
+using Savemate.Infrastructure;
+using Savemate.Web.ViewModels;
 
 namespace Savemate.Web.Controllers
 {
+    //  [Authorize]
+
     public class TransactionController : Controller
     {
         private readonly ITransactionService _transactionService;
         private readonly IAccountService _accountService;
         private readonly ICategoryService _categoryService;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
 
         public TransactionController(
             ITransactionService transactionService,
             IAccountService accountService,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager)
         {
             _transactionService = transactionService;
             _accountService = accountService;
             _categoryService = categoryService;
+            _userManager = userManager;
         }
 
-        // GET: Transaction
+        // INDEX - list user's transactions
+        
         public async Task<IActionResult> Index()
         {
-            var userId = User.Identity?.Name; // or however you're storing userId
-            var transactions = await _transactionService.ListTransactionsByUserAsync(userId!);
+            var userId = _userManager.GetUserId(User);
+            var transactions = await _transactionService.GetTransactionsByUserAsync(userId);
 
-            var model = transactions.Select(t => new TransactionViewModel
+            var viewModelList = transactions.Select(t => new TransactionViewModel
             {
                 Id = t.Id,
-                Amount = t.Amount,
                 Type = t.Type,
+                Amount = t.Amount,
                 Date = t.Date,
                 Note = t.Note,
+              //  Category = t.Category,
                 FromAccountId = t.FromAccountId,
                 ToAccountId = t.ToAccountId,
-                CategoryId = t.CategoryId
+               // CategoryName = t.Category,          // If you have navigation property
+                FromAccountName = t.FromAccount?.Name,
+                ToAccountName = t.ToAccount?.Name
             }).ToList();
 
-            return View(model);
+            return View(viewModelList);
         }
 
-        // GET: Transaction/Create
+
+        // CREATE GET
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = new TransactionViewModel
-            {
-                Accounts = await _accountService.ListAccountsByUserAsync(User.Identity!.Name!),
-                Categories = await _categoryService.ListCategoriesByUserAsync(User.Identity!.Name!)
-            };
-            return View(model);
+            var vm = await BuildTransactionViewModel();
+            return View(vm);
         }
 
-        // POST: Transaction/Create
+        // CREATE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TransactionViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                vm.Accounts = await _accountService.ListAccountsByUserAsync(User.Identity!.Name!);
-                vm.Categories = await _categoryService.ListCategoriesByUserAsync(User.Identity!.Name!);
+                vm = await BuildTransactionViewModel(vm);
                 return View(vm);
             }
 
-            var entity = new Transaction
+            var userId = _userManager.GetUserId(User);
+
+            var transaction = new Transaction
             {
+                UserId = userId,
                 Amount = vm.Amount,
-                Type = vm.Type,
                 Date = vm.Date,
                 Note = vm.Note,
+                Type = vm.Type,
                 FromAccountId = vm.FromAccountId,
                 ToAccountId = vm.ToAccountId,
-                CategoryId = vm.CategoryId,
-                UserId = Guid.Parse(User.Identity!.Name!) // assuming Guid stored in claims
+               
             };
 
-            await _transactionService.AddTransactionAsync(entity, User.Identity!.Name!);
+            var created = await _transactionService.CreateTransactionAsync(transaction);
 
+            TempData["Success"] = "Transaction created successfully.";
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Transaction/Edit/5
+        // EDIT GET
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var entity = await _transactionService.GetTransactionByIdAsync(id, User.Identity!.Name!);
-            if (entity == null) return NotFound();
+            var userId = _userManager.GetUserId(User);
+            var transaction = await _transactionService.GetTransactionAsync(id, userId);
+            if (transaction == null) return NotFound();
 
             var vm = new TransactionViewModel
             {
-                Id = entity.Id,
-                Amount = entity.Amount,
-                Type = entity.Type,
-                Date = entity.Date,
-                Note = entity.Note,
-                FromAccountId = entity.FromAccountId,
-                ToAccountId = entity.ToAccountId,
-                CategoryId = entity.CategoryId,
-                Accounts = await _accountService.ListAccountsByUserAsync(User.Identity!.Name!),
-                Categories = await _categoryService.ListCategoriesByUserAsync(User.Identity!.Name!)
+                Id = transaction.Id,
+                Type = transaction.Type,
+                Amount = transaction.Amount,
+                Date = transaction.Date,
+                Note = transaction.Note,
+                FromAccountId = transaction.FromAccountId,
+                ToAccountId = transaction.ToAccountId,
+               
+
             };
 
+            vm = await BuildTransactionViewModel(vm);
             return View(vm);
         }
 
-        // POST: Transaction/Edit/5
+        // EDIT POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(TransactionViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                vm.Accounts = await _accountService.ListAccountsByUserAsync(User.Identity!.Name!);
-                vm.Categories = await _categoryService.ListCategoriesByUserAsync(User.Identity!.Name!);
+                vm = await BuildTransactionViewModel(vm);
                 return View(vm);
             }
 
-            var entity = new Transaction
-            {
-                Id = vm.Id,
-                Amount = vm.Amount,
-                Type = vm.Type,
-                Date = vm.Date,
-                Note = vm.Note,
-                FromAccountId = vm.FromAccountId,
-                ToAccountId = vm.ToAccountId,
-                CategoryId = vm.CategoryId,
-                UserId = Guid.Parse(User.Identity!.Name!)
-            };
+            var userId = _userManager.GetUserId(User);
+            var existing = await _transactionService.GetTransactionAsync(vm.Id, userId);
+            if (existing == null) return NotFound();
 
-            await _transactionService.UpdateTransactionAsync(entity, User.Identity!.Name!);
+            existing.Amount = vm.Amount;
+            existing.Date = vm.Date;
+            existing.Note = vm.Note;
+            existing.Type = vm.Type;
+            existing.FromAccountId = vm.FromAccountId;
+            existing.ToAccountId = vm.ToAccountId;
+            
 
+           
+            var updated = await _transactionService.UpdateTransactionAsync(existing);
+
+            TempData["Success"] = "Transaction updated successfully.";
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Transaction/Delete/5
+        // DELETE GET (confirm)
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var entity = await _transactionService.GetTransactionByIdAsync(id, User.Identity!.Name!);
-            if (entity == null) return NotFound();
+            var userId = _userManager.GetUserId(User);
+            var transaction = await _transactionService.GetTransactionAsync(id, userId);
+            if (transaction == null) return NotFound();
 
-            return View(entity); // you can map to VM if you want
+            return View(transaction);
         }
 
-        // POST: Transaction/Delete/5
+        // DELETE POST (confirmed)
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _transactionService.DeleteTransactionAsync(id, User.Identity!.Name!);
+            var userId = _userManager.GetUserId(User);
+            await _transactionService.DeleteTransactionAsync(id, userId);
+
+            TempData["Success"] = "Transaction deleted successfully.";
             return RedirectToAction(nameof(Index));
         }
+
+        // ----------------------
+        // Private helper: BuildTransactionViewModel
+        // ----------------------
+        private async Task<TransactionViewModel> BuildTransactionViewModel(TransactionViewModel? existing = null)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // You said you chose casting (Option 2). Keep that here.
+            // If your account service returns a strongly-typed IEnumerable<Account> later, remove the cast.
+            var accounts = (IEnumerable<Account>)await _accountService.GetAllAccount();
+            var categoriesObj = await _categoryService.GetCategoriesByUserAsync(userId);
+            var categories = categoriesObj as IEnumerable<Category> ?? (IEnumerable<Category>)categoriesObj;
+
+            return new TransactionViewModel
+            {
+                Id = existing?.Id ?? 0,
+                Type = existing?.Type ?? TransactionTypeEnum.Expense,
+                Amount = existing?.Amount ?? 0,
+                Date = existing?.Date ?? DateTime.Now,
+                Note = existing?.Note,
+                FromAccountId = existing?.FromAccountId,
+                ToAccountId = existing?.ToAccountId,
+              //  Category = existing.Category,
+
+                Accounts = accounts.Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Name
+                }),
+
+                Categories = Enum.GetValues(typeof(CategoryTypeEnum))
+                 .Cast<CategoryTypeEnum>()
+                 .Select(c => new SelectListItem
+                 {
+                     Value = ((int)c).ToString(),
+                     Text = c.ToString()
+                 })
+            };
+        }
     }
-}
+    }
+ 

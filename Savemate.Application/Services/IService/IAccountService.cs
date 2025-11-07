@@ -14,5 +14,6 @@ namespace Savemate.Application.Services.IService
         Task<Account> UpdateAccount(Account account);
         Task<Account> GetAccountById(int accountId);
         Task<IEnumerable<Account>> GetAllAccount ();
+        Task<IEnumerable<object>> GetAccountsByUserAsync(string? userId);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Savemate.Application.Services;
+using Microsoft.AspNetCore.Mvc; 
 using Savemate.Application.Services.IService;
 using Savemate.Domain.Entities;
 using Savemate.Infrastructure;

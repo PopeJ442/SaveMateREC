@@ -1,35 +1,15 @@
-﻿using Savemate.Domain.Entities;
-using Savemate.Domain.Enums;
-
-namespace Savemate.Application.Interface.IServices
+﻿namespace Savemate.Application.Interfaces.Services
 {
+    using Savemate.Domain.Entities;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface ITransactionService
     {
-        Task<Transaction> AddTransactionAsync(Transaction transaction, string userId, CancellationToken ct = default);
-
-        Task<Transaction?> UpdateTransactionAsync(Transaction transaction, string userId, CancellationToken ct = default);
-
-        Task<bool> DeleteTransactionAsync(int id, string userId, CancellationToken ct = default);
-
-        Task<Transaction?> GetTransactionByIdAsync(int id, string userId, CancellationToken ct = default);
-
-        Task<IReadOnlyList<Transaction>> ListTransactionsByUserAsync(
-            string userId,
-            DateTime? from = null,
-            DateTime? to = null,
-            int? accountId = null,
-            int? categoryId = null,
-            TransactionTypeEnum? type = null,
-            int skip = 0,
-            int take = 100,
-            CancellationToken ct = default);
-
-        Task<decimal> GetTransactionSumAsync(
-            string userId,
-            DateTime? from = null,
-            DateTime? to = null,
-            int? accountId = null,
-            TransactionTypeEnum? type = null,
-            CancellationToken ct = default);
+        Task<Transaction?> GetTransactionAsync(int id, string userId);
+        Task<IEnumerable<Transaction>> GetTransactionsByUserAsync(string userId);
+        Task<Transaction> CreateTransactionAsync(Transaction transaction);
+        Task<Transaction> UpdateTransactionAsync(Transaction transaction);
+        Task DeleteTransactionAsync(int id, string userId);
     }
 }

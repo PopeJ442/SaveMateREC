@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Savemate.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7d2ae9f63224f75e702e1a7ffaf96114c091f8b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25c157d4f4c7f041e41a5eb2201695e0c5e7b8c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Savemate.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Savemate.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
