@@ -1,46 +1,49 @@
 ﻿using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Services.IService;
+using Savemate.Application.Services.IService.IAccountService;
 using Savemate.Domain.Entities;
 
 namespace Savemate.Application.Services
 {
-    public class AccountService(IAccountRepository accountRepository) : IAccountService
+    public class AccountService : IAccountService
     {
-        private readonly IAccountRepository _accountRepository = accountRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public async Task<Account> AddAccount(Account account)
+        public AccountService(IAccountRepository accountRepository)
         {
-            await _accountRepository.AddAsync(account);
-            await _accountRepository.SaveChangesAsync();
+            _accountRepository = accountRepository;
+        }
+
+        public async Task<Account> AddAccount(Account account, string userId)
+        {
+            await _accountRepository.AddAccountAsync(account, userId);
             return account;
         }
 
-        public async Task DeleteAccount(Account account)
+        public async Task<bool> DeleteAccount(int id, string userId)
         {
-            await _accountRepository.DeleteAsync(account);
-            await _accountRepository.SaveChangesAsync();
+            return await _accountRepository.DeleteAccountAsync(id, userId);
         }
 
-        public async Task<Account> UpdateAccount(Account account)
+        public async Task<Account?> UpdateAccount(Account account, string userId)
         {
-            await _accountRepository.UpdateAsync(account);
-            await _accountRepository.SaveChangesAsync();
-            return account;
+            return await _accountRepository.UpdateAccountAsync(account, userId);
         }
 
-        public async Task<Account> GetAccountById(int accountId)
+        public async Task<Account?> GetAccountById(int accountId, string userId)
         {
-            return await _accountRepository.GetByIdAsync(accountId);
+            return await _accountRepository.GetAccountByIdAsync(accountId, userId);
         }
 
-        public async Task<IEnumerable<Account>> GetAllAccount()
+        public async Task<IEnumerable<Account>> GetAllAccounts()
         {
             return await _accountRepository.GetAllAsync();
         }
 
-        public Task<IEnumerable<object>> GetAccountsByUserAsync(string? userId)
+        public async Task<IEnumerable<Account>> GetAccountsByUserAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await _accountRepository.ListAccountByUserAsync(userId);
         }
     }
+
 }

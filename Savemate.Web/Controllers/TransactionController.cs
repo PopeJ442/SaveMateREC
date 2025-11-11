@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Savemate.Application.Interfaces.Services;
 using Savemate.Application.Services;
 using Savemate.Application.Services.IService;
+using Savemate.Application.Services.IService.IAccountService;
 using Savemate.Application.ViewModels;
 using Savemate.Domain.Entities;
 using Savemate.Domain.Enums;
 using Savemate.Infrastructure;
-using Savemate.Web.ViewModels;
-
+ 
 namespace Savemate.Web.Controllers
 {
     //  [Authorize]
@@ -186,7 +186,7 @@ namespace Savemate.Web.Controllers
 
             // You said you chose casting (Option 2). Keep that here.
             // If your account service returns a strongly-typed IEnumerable<Account> later, remove the cast.
-            var accounts = (IEnumerable<Account>)await _accountService.GetAllAccount();
+            var accounts = (IEnumerable<Account>)await _accountService.GetAllAccounts();
             var categoriesObj = await _categoryService.GetCategoriesByUserAsync(userId);
             var categories = categoriesObj as IEnumerable<Category> ?? (IEnumerable<Category>)categoriesObj;
 

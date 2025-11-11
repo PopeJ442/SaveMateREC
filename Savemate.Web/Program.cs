@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Savemate.Infrastructure;
 using Savemate.Infrastructure.IoC;
  
@@ -14,8 +15,9 @@ DependencyInjection.Registering(builder.Services);
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SaveMateDbContext>().AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(opt => {
-    opt.LoginPath = "/Authentication/Login";
+    opt.LoginPath = "/transactions/edit";
     opt.Cookie.Name = ".AspNetCore.Identity.Application";
+    opt.LogoutPath = "/Authentication/Logout";
     opt.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     opt.SlidingExpiration = true;
 

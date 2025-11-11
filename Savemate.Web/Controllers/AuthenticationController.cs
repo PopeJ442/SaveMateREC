@@ -62,7 +62,7 @@ namespace Savemate.Web.Controllers
                 Email = model.Email,
                 Country = model.CountryCode,
                 DOB = model.DOB,
-                TwoFactorEnabled = true
+              //  TwoFactorEnabled = false
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -70,7 +70,8 @@ namespace Savemate.Web.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index");
+                return RedirectToAction("index", "account");
+                    
             }
          
 
@@ -154,29 +155,40 @@ namespace Savemate.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login login)
+        public async Task<IActionResult> Login(Login login, string? returnUrl = null)
         {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser appUser = await userManager.FindByEmailAsync(login.Email );
-                if (appUser != null)
-                {
-                    await signInManager.SignOutAsync();
-                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password,login.RememberMe, false);
-                    if (result.Succeeded)
-                        return Redirect(login.ReturnUrl ?? "/");
+            returnUrl ??= Url.Content("/account/index"); // default to home
 
-                    //if (result.RequiresTwoFactor)
-                    //{
-                    //    return RedirectToAction("LoginTwoStep", new { appUser.Email, login.ReturnUrl });
-                    //}
-                }
-                ModelState.AddModelError(nameof(login.Email), "Login Failed: Invalid Email or password");
+            if (!ModelState.IsValid)
+                return View(login);
+
+            var appUser = await _userManager.FindByEmailAsync(login.Email);
+            if (appUser == null)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(login);
             }
+
+            // Sign out previous sessions
+            await _signInManager.SignOutAsync();
+
+            var result = await _signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
+            if (result.Succeeded)
+            {
+                // ✅ This ensures proper redirection after login
+                return LocalRedirect(returnUrl);
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToAction("LoginTwoStep", new { email = login.Email, returnUrl });
+            }
+
+            ModelState.AddModelError("", "Invalid login attempt.");
             return View(login);
         }
 
-          [AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
             string redirectUrl = Url.Action("GoogleResponse", "Authentication");

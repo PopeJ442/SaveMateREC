@@ -1,13 +1,64 @@
-﻿@{
+﻿@using Savemate.Domain.Entities
+@model Login
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
+ 
 @if (User?.Identity?.IsAuthenticated ?? false)
 {
     <a asp-controller="Authentication" asp-action="Logout" class="btn btn-danger">Logout</a>
 }
+ 
+@{
+    ViewData["Title"] = "Login";
+}
+<div asp-validation-summary="All"></div>
+@Html.AntiForgeryToken();
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="text-center mb-4">Login</h4>
+
+                    <form   asp-controller="Authentication" asp-action="Login" method="post">
+
+                      @*  <input type="hidden" asp-for="ReturnUrl" /> *@
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                            <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                        </div>
+                        
+
+                        <button  class="btn btn-primary" type="submit">Log In</button>
+                        <a class="btn btn-info" asp-action="GoogleLogin">Log In With Google</a>
+
+                        <p class="text-center mt-3 mb-0">
+                            Don’t have an account?
+                            <a asp-action="register" asp-controller="Authentication" class="text-decoration-none">Sign up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} *@

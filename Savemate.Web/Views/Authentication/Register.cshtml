@@ -3,14 +3,14 @@
 @using Savemate.Web.ViewModels
 @model RegisterViewModel
 @{
-    ViewData["title"] = "Create";
-}
+    ViewData["title"] = "Create an account";
+}  
  
 
 <h1 class="bg-info text-white">Create User</h1>
 <a asp-action="Index" class="btn btn-secondary">Back</a>
 <div asp-validation-summary="All" class="text-danger"></div>
-
+@Html.AntiForgeryToken();
 
 <form method="post">
     <div class="form-group">
