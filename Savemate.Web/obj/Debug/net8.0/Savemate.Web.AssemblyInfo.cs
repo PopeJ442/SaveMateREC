@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Savemate.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45c2c53b30ddd115e265b043ceea2f9a16d1aad9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+324dee8c8a76e30e3e108dd233cb962953ee16a3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Savemate.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Savemate.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

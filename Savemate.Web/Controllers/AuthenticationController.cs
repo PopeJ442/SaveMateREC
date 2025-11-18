@@ -25,10 +25,8 @@ namespace Savemate.Web.Controllers
 
         public IActionResult Register()
         {
-
-
-
-            var countries = CountryHelper.GetAllCountries()
+  
+         var countries = CountryHelper.GetAllCountries()
         .Select(c => new SelectListItem
         {
             Text = c.CommonName,
@@ -42,6 +40,7 @@ namespace Savemate.Web.Controllers
 
             return View(viewModel);
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {

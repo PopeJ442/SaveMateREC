@@ -177,15 +177,12 @@ namespace Savemate.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ----------------------
-        // Private helper: BuildTransactionViewModel
-        // ----------------------
+        
         private async Task<TransactionViewModel> BuildTransactionViewModel(TransactionViewModel? existing = null)
         {
             var userId = _userManager.GetUserId(User);
 
-            // You said you chose casting (Option 2). Keep that here.
-            // If your account service returns a strongly-typed IEnumerable<Account> later, remove the cast.
+             
             var accounts = (IEnumerable<Account>)await _accountService.GetAllAccounts();
             var categoriesObj = await _categoryService.GetCategoriesByUserAsync(userId);
             var categories = categoriesObj as IEnumerable<Category> ?? (IEnumerable<Category>)categoriesObj;

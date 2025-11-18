@@ -7,16 +7,13 @@
 }
 
  
-@if (User?.Identity?.IsAuthenticated ?? false)
-{
-    <a asp-controller="Authentication" asp-action="Logout" class="btn btn-danger">Logout</a>
-}
+
  
 @{
     ViewData["Title"] = "Login";
 }
 <div asp-validation-summary="All"></div>
-@Html.AntiForgeryToken();
+@Html.AntiForgeryToken()
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
@@ -52,6 +49,10 @@
                             Don’t have an account?
                             <a asp-action="register" asp-controller="Authentication" class="text-decoration-none">Sign up</a>
                         </p>
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            <a asp-controller="Authentication" asp-action="Logout" class="btn btn-danger"  >Logout</a>
+                        }
                     </form>
                 </div>
             </div>
@@ -59,6 +60,4 @@
     </div>
 </div>
 
-@* @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-} *@
+ 

@@ -27,7 +27,7 @@ namespace Savemate.Infrastructure.IoC
         {
             services.Configure<IdentityOptions>(opt => {
                 opt.User.RequireUniqueEmail = true;
-                opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
+                opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireUppercase = true;
                 opt.Password.RequireLowercase = true;
