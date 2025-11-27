@@ -8,8 +8,10 @@
     {
         Task<Transaction?> GetTransactionAsync(int id, string userId);
         Task<IEnumerable<Transaction>> GetTransactionsByUserAsync(string userId);
-        Task<Transaction> CreateTransactionAsync(Transaction transaction);
+        Task<Transaction> CreateTransactionAsync(Transaction transaction );
         Task<Transaction> UpdateTransactionAsync(Transaction transaction);
         Task DeleteTransactionAsync(int id, string userId);
+        Task<(bool IsSuccess, string Message)> ReverseTransactionAsync(int id, string userId);
+
     }
 }

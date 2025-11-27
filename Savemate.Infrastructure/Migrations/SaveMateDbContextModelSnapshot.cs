@@ -227,8 +227,17 @@ namespace Savemate.Infrastructure.Migrations
                     b.Property<int?>("FromAccountId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsReversalEntry")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReversed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentTransactionId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ToAccountId")
                         .HasColumnType("int");
@@ -244,11 +253,70 @@ namespace Savemate.Infrastructure.Migrations
 
                     b.HasIndex("FromAccountId");
 
+                    b.HasIndex("ParentTransactionId");
+
                     b.HasIndex("ToAccountId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("Savemate.Domain.Entities.TransactionAuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuditType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ChangedByUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ChangedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("NewAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("NewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("NewFromAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewToAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OldAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("OldDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OldFromAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldToAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("AuditLog");
                 });
 
             modelBuilder.Entity("Savemate.Infrastructure.ApplicationUser", b =>
@@ -414,6 +482,11 @@ namespace Savemate.Infrastructure.Migrations
                         .HasForeignKey("FromAccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Savemate.Domain.Entities.Transaction", "ParentTransaction")
+                        .WithMany()
+                        .HasForeignKey("ParentTransactionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Savemate.Domain.Entities.Account", "ToAccount")
                         .WithMany("TransactionsTo")
                         .HasForeignKey("ToAccountId")
@@ -427,9 +500,22 @@ namespace Savemate.Infrastructure.Migrations
 
                     b.Navigation("FromAccount");
 
+                    b.Navigation("ParentTransaction");
+
                     b.Navigation("ToAccount");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Savemate.Domain.Entities.TransactionAuditLog", b =>
+                {
+                    b.HasOne("Savemate.Domain.Entities.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("Savemate.Domain.Entities.Account", b =>

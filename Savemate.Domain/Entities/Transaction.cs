@@ -12,20 +12,24 @@ namespace Savemate.Domain.Entities
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; } 
-
-     //   [ForeignKey(nameof(FromAccount))]
-        public int? FromAccountId { get; set; }  // nullable for income
+ 
+        public int? FromAccountId { get; set; }   
         public Account? FromAccount { get; set; }
 
         
-        public int? ToAccountId { get; set; }    // nullable for expenses
+        public int? ToAccountId { get; set; }     
         public Account? ToAccount { get; set; }
         public decimal Amount { get; set; }
         public TransactionTypeEnum Type { get; set; }
         public DateTime Date { get; set; }
         public string? Note { get; set; }
+        public bool IsReversed { get; set; } = false;
+        public bool IsReversalEntry { get; set; } = false;
 
-        //public CategoryTypeEnum Category { get; set; }
+        
+        public int? ParentTransactionId { get; set; }
+        public Transaction? ParentTransaction { get; set; }
+
 
     }
 }

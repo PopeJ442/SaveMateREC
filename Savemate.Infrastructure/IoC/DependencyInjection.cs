@@ -47,6 +47,9 @@ namespace Savemate.Infrastructure.IoC
             services.AddScoped<IUserValidator<ApplicationUser>, CustomUserEmailPolicy>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionService,TransactionService>();
+            services.AddScoped<ITransactionAuditRepository, TransactionAuditRepository>();
+            services.AddScoped<ITransactionAuditService, TransactionAuditService>();
+
 
 
 

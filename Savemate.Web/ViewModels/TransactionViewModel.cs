@@ -41,5 +41,12 @@ namespace Savemate.Application.ViewModels
         public string? FromAccountName { get; set; }
         public string? ToAccountName { get; set; }
         public string? CategoryName { get; set; }
+
+        
+        public bool IsReversed { get; set; } = false;
+        public bool IsReversalEntry { get; set; } = false;
+
+
+        public int? ParentTransactionId { get; set; } 
     }
 }

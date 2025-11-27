@@ -11,6 +11,7 @@ namespace Savemate.Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<TransactionAuditLog> AuditLog { get; set; }
 
 
 
@@ -38,6 +39,18 @@ namespace Savemate.Infrastructure
                 .WithMany(a => a.TransactionsTo)
                 .HasForeignKey(t => t.ToAccountId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+    .HasOne(t => t.ParentTransaction)
+    .WithMany()
+    .HasForeignKey(t => t.ParentTransactionId)
+    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TransactionAuditLog>()
+            .HasOne(a => a.Transaction)
+            .WithMany()
+            .HasForeignKey(a => a.TransactionId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             // User → Category (1:M)
             modelBuilder.Entity<Category>()
