@@ -11,6 +11,7 @@ namespace Savemate.Application.Services
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionAuditRepository _auditLogRepository;
+      //  private readonly 
 
         public TransactionService(
             ITransactionRepository transactionRepository,
@@ -33,8 +34,9 @@ namespace Savemate.Application.Services
             return await _transactionRepository.GetByUserIdAsync(userId);
         }
 
-        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
+        public async Task<(bool IsSuccess, string Message, Transaction? Result)> CreateTransactionAsync(Transaction transaction)
         {
+            // Load accounts safely
             var fromAccount = transaction.FromAccountId.HasValue
                 ? await _accountRepository.GetByIdAsync(transaction.FromAccountId.Value)
                 : null;
@@ -43,6 +45,25 @@ namespace Savemate.Application.Services
                 ? await _accountRepository.GetByIdAsync(transaction.ToAccountId.Value)
                 : null;
 
+            // 🔥 VALIDATION: Check insufficient funds BEFORE creating transaction
+            if (transaction.Type == TransactionTypeEnum.Expense ||
+                transaction.Type == TransactionTypeEnum.Transfer)
+            {
+                if (fromAccount == null)
+                    return (false, "Source account not found.", null);
+
+                if (fromAccount.InitialBalance < transaction.Amount)
+                    return (false, "Insufficient balance in the selected account.", null);
+            }
+
+            // 🔥 VALIDATION: for Income, ensure TO account exists
+            if (transaction.Type == TransactionTypeEnum.Income)
+            {
+                if (toAccount == null)
+                    return (false, "Target account not found.", null);
+            }
+
+            // UPDATE BALANCES
             switch (transaction.Type)
             {
                 case TransactionTypeEnum.Income:
@@ -59,11 +80,13 @@ namespace Savemate.Application.Services
                     break;
             }
 
+            // SAVE 
             await _transactionRepository.AddAsync(transaction);
             await _transactionRepository.SaveChangesAsync();
 
-            return transaction;
+            return (true, "Transaction created successfully.", transaction);
         }
+
 
         public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
         {
@@ -81,15 +104,21 @@ namespace Savemate.Application.Services
             await _transactionRepository.DeleteAsync(tx);
             await _transactionRepository.SaveChangesAsync();
         }
-
-       
         public async Task<(bool IsSuccess, string Message)> ReverseTransactionAsync(int id, string userId)
         {
             var originalTx = await GetTransactionAsync(id, userId);
             if (originalTx == null)
                 return (false, "Transaction not found or unauthorized.");
 
-            // Load accounts
+            if (originalTx.IsReversed)
+                return (false, "Transaction is already reversed.");
+
+            // Mark original as reversed FIRST
+            originalTx.IsReversed = true;
+
+            await _transactionRepository.UpdateAsync(originalTx);
+
+            // Reverse balance logic
             var oldFrom = originalTx.FromAccountId.HasValue
                 ? await _accountRepository.GetByIdAsync(originalTx.FromAccountId.Value)
                 : null;
@@ -98,7 +127,6 @@ namespace Savemate.Application.Services
                 ? await _accountRepository.GetByIdAsync(originalTx.ToAccountId.Value)
                 : null;
 
-            // 1. REVERSE ACCOUNT BALANCES
             switch (originalTx.Type)
             {
                 case TransactionTypeEnum.Income:
@@ -115,7 +143,7 @@ namespace Savemate.Application.Services
                     break;
             }
 
-            // 2. CREATE REVERSAL TRANSACTION
+            // Create reversal entry
             var reversalTx = new Transaction
             {
                 UserId = originalTx.UserId,
@@ -124,42 +152,128 @@ namespace Savemate.Application.Services
                 Note = $"REVERSAL of #{originalTx.Id}",
                 Type = originalTx.Type,
 
-                // swap From <-> To
+                IsReversed = true,          // NEW FIX: reversal entries should also be non-reversible
+                IsReversalEntry = true,
+
                 FromAccountId = originalTx.ToAccountId,
-                ToAccountId = originalTx.FromAccountId
+                ToAccountId = originalTx.FromAccountId,
+                ParentTransactionId = originalTx.Id
             };
 
             await _transactionRepository.AddAsync(reversalTx);
 
-            // 3. CREATE AUDIT LOG ENTRY
+            // Audit log
             var audit = new TransactionAuditLog
             {
                 TransactionId = originalTx.Id,
                 AuditType = AuditTypeEnum.Reversed,
-
                 OldAmount = originalTx.Amount,
                 NewAmount = originalTx.Amount,
-
                 OldFromAccountId = originalTx.FromAccountId,
                 NewFromAccountId = reversalTx.FromAccountId,
-
                 OldToAccountId = originalTx.ToAccountId,
                 NewToAccountId = reversalTx.ToAccountId,
-
                 OldDate = originalTx.Date,
                 NewDate = reversalTx.Date,
-
                 OldNote = originalTx.Note,
-                NewNote = reversalTx.Note
+                NewNote = reversalTx.Note,
+                ChangedByUserId = originalTx.UserId
             };
 
             await _auditLogRepository.AddAsync(audit);
 
-            // COMMIT ALL CHANGES
+            // Save everything
             await _transactionRepository.SaveChangesAsync();
             await _auditLogRepository.SaveChangesAsync();
 
             return (true, "Transaction reversed successfully");
         }
+
+
+        //    public async Task<(bool IsSuccess, string Message)> ReverseTransactionAsync(int id, string userId)
+        //    {
+        //        var originalTx = await GetTransactionAsync(id, userId);
+        //        if (originalTx == null)
+        //            return (false, "Transaction not found or unauthorized.");
+
+        //        // Load accounts
+        //        var oldFrom = originalTx.FromAccountId.HasValue
+        //            ? await _accountRepository.GetByIdAsync(originalTx.FromAccountId.Value)
+        //            : null;
+
+        //        var oldTo = originalTx.ToAccountId.HasValue
+        //            ? await _accountRepository.GetByIdAsync(originalTx.ToAccountId.Value)
+        //            : null;
+        //        originalTx.IsReversed = true;
+
+        //        // 1. REVERSE ACCOUNT BALANCES
+        //        switch (originalTx.Type)
+        //        {
+        //            case TransactionTypeEnum.Income:
+        //                oldTo!.InitialBalance -= originalTx.Amount;
+        //                break;
+
+        //            case TransactionTypeEnum.Expense:
+        //                oldFrom!.InitialBalance += originalTx.Amount;
+        //                break;
+
+        //            case TransactionTypeEnum.Transfer:
+        //                oldTo!.InitialBalance -= originalTx.Amount;
+        //                oldFrom!.InitialBalance += originalTx.Amount;
+        //                break;
+        //        }
+        //      await _transactionRepository.UpdateAsync(originalTx);
+        //        await _transactionRepository.SaveChangesAsync();
+
+        //        // 2. CREATE REVERSAL TRANSACTION
+        //        var reversalTx = new Transaction
+        //        {
+        //            UserId = originalTx.UserId,
+        //            Amount = originalTx.Amount,
+        //            Date = DateTime.Now,
+        //            Note = $"REVERSAL of #{originalTx.Id}",
+        //            Type = originalTx.Type,
+        //            IsReversed = false,
+        //            IsReversalEntry = true,
+        //            ParentTransaction = originalTx,
+        //            FromAccountId = originalTx.ToAccountId,
+        //            ToAccountId = originalTx.FromAccountId
+        //        };
+
+        //        await _transactionRepository.AddAsync(reversalTx);
+
+        //        // 3. CREATE AUDIT LOG ENTRY
+        //        var audit = new TransactionAuditLog
+        //        {
+        //            TransactionId = originalTx.Id,
+        //            AuditType = AuditTypeEnum.Reversed,
+
+        //            OldAmount = originalTx.Amount,
+        //            NewAmount = originalTx.Amount,
+
+        //            OldFromAccountId = originalTx.FromAccountId,
+        //            NewFromAccountId = reversalTx.FromAccountId,
+
+        //            OldToAccountId = originalTx.ToAccountId,
+        //            NewToAccountId = reversalTx.ToAccountId,
+
+        //            OldDate = originalTx.Date,
+        //            NewDate = reversalTx.Date,
+
+        //            OldNote = originalTx.Note,
+        //            NewNote = reversalTx.Note,
+
+        //            ChangedByUserId = originalTx.UserId
+
+        //        };
+
+        //        await _auditLogRepository.AddAsync(audit);
+
+        //        // COMMIT ALL CHANGES
+        //        await _transactionRepository.SaveChangesAsync();
+        //        await _auditLogRepository.SaveChangesAsync();
+
+        //        return (true, "Transaction reversed successfully");
+        //    }
     }
 }

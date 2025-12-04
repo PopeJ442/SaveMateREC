@@ -265,7 +265,9 @@ namespace Savemate.Web.Controllers
                 FromAccountId = t.FromAccountId,
                 ToAccountId = t.ToAccountId,
                 FromAccountName = t.FromAccount?.Name,
-                ToAccountName = t.ToAccount?.Name
+                ToAccountName = t.ToAccount?.Name,
+                IsReversed = t.IsReversed,
+                IsReversalEntry = t.IsReversalEntry,
             }).ToList();
 
             return View(viewModelList);
@@ -303,8 +305,12 @@ namespace Savemate.Web.Controllers
                 ToAccountId = vm.ToAccountId
             };
 
-            await _transactionService.CreateTransactionAsync(transaction);
-
+            var result = await _transactionService.CreateTransactionAsync(transaction);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View(vm);
+            }
             TempData["Success"] = "Transaction created successfully.";
             return RedirectToAction(nameof(Index));
         }
@@ -371,9 +377,10 @@ namespace Savemate.Web.Controllers
             return View(transaction);
         }
 
-        // DELETE POST
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+       // DELETE POST
+       [HttpPost, ActionName("Delete")]
+         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userId = _userManager.GetUserId(User);
@@ -383,11 +390,8 @@ namespace Savemate.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ============================================================
-        //               🔄 REVERSE TRANSACTION
-        // ============================================================
 
-        // [HttpGet]
+        //[HttpGet]
         //public async Task<IActionResult> Reverse(int id)
         //{
         //    var userId = _userManager.GetUserId(User);
@@ -396,12 +400,13 @@ namespace Savemate.Web.Controllers
         //    if (transaction == null)
         //        return NotFound();
 
-        //    return View(transaction); // Simple confirmation page
+        //    return View(transaction);
         //}
 
         //[HttpPost, ActionName("Reverse")]
-        [HttpGet]
-       // [ValidateAntiForgeryToken]
+
+        //[ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> ReverseConfirmed(int id)
         {
             var userId = _userManager.GetUserId(User);
@@ -420,9 +425,7 @@ namespace Savemate.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ============================================================
-        //         Build the VM (no changes here)
-        // ============================================================
+        
 
         private async Task<TransactionViewModel> BuildTransactionViewModel(TransactionViewModel? existing = null)
         {
@@ -441,6 +444,8 @@ namespace Savemate.Web.Controllers
                 Note = existing?.Note,
                 FromAccountId = existing?.FromAccountId,
                 ToAccountId = existing?.ToAccountId,
+                IsReversed = existing?.IsReversed ?? false,
+                IsReversalEntry = existing?.IsReversalEntry ?? false,
 
                 Accounts = accounts.Select(a => new SelectListItem
                 {

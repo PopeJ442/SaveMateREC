@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Add Transaction</a>
 </p>
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <table class="table table-striped">
     <thead>
@@ -32,7 +33,19 @@
                 <td>@t.ToAccountName</td>
                 <td>
                       <a asp-action="Details" asp-route-id="@t.Id" class="btn btn-sm btn-info">View</a>
-                    <a asp-action="ReverseConfirmed" asp-route-id="@t.Id" class="btn btn-sm btn-warning">Reverse</a>
+                    @if (t.IsReversed == true || t.IsReversalEntry == true)
+                    {
+                        <button class="btn btn-danger" disabled>Reversed</button>
+                    }
+                    else
+                    {
+                        <form asp-action="ReverseConfirmed" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@t.Id" />
+                            <button type="submit" class="btn btn-sm btn-warning">Reverse</button>
+                        </form>
+                    }
+
+
                     <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
