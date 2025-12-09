@@ -219,6 +219,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Savemate.Application.Interfaces.Services;
 using Savemate.Application.Services.IService;
@@ -288,7 +289,9 @@ namespace Savemate.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+               
                 vm = await BuildTransactionViewModel(vm);
+                
                 return View(vm);
             }
 
@@ -309,6 +312,9 @@ namespace Savemate.Web.Controllers
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Message);
+
+                vm = await BuildTransactionViewModel(vm);
+
                 return View(vm);
             }
             TempData["Success"] = "Transaction created successfully.";

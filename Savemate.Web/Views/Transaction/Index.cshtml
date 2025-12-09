@@ -8,10 +8,11 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Add Transaction</a>
-</p>
-<div asp-validation-summary="All" class="text-danger"></div>
+</p> 
 
 <table class="table table-striped">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
     <thead>
         <tr>
             <th>Type</th>
@@ -46,7 +47,7 @@
                     }
 
 
-                    <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">Delete</a>
+                   @*  <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">Delete</a> *@
                 </td>
             </tr>
         }
