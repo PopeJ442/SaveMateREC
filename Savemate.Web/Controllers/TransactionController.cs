@@ -225,6 +225,7 @@ using Savemate.Application.Interfaces.Services;
 using Savemate.Application.Services.IService;
 using Savemate.Application.Services.IService.IAccountService;
 using Savemate.Application.ViewModels;
+using Savemate.Domain;
 using Savemate.Domain.Entities;
 using Savemate.Domain.Enums;
 using Savemate.Infrastructure;
@@ -287,8 +288,14 @@ namespace Savemate.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TransactionViewModel vm)
         {
+            var validationErrors = vm.ValidateTransaction();
+
+            foreach(var error in validationErrors)
+                ModelState.AddModelError(string.Empty, error);
+
             if (!ModelState.IsValid)
             {
+               
                
                 vm = await BuildTransactionViewModel(vm);
                 
@@ -301,7 +308,7 @@ namespace Savemate.Web.Controllers
             {
                 UserId = userId,
                 Amount = vm.Amount,
-                Date = vm.Date,
+                Date =  DateTime.UtcNow,
                 Note = vm.Note,
                 Type = vm.Type,
                 FromAccountId = vm.FromAccountId,
@@ -319,6 +326,18 @@ namespace Savemate.Web.Controllers
             }
             TempData["Success"] = "Transaction created successfully.";
             return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAccountBalance(int accountId)
+        {
+
+            var userId = _userManager.GetUserId(User);
+
+            var account = await _accountService.GetAccountById(accountId, userId);
+
+            if (account == null)
+                return NotFound();
+            return Json(new { balance = account.InitialBalance });
         }
 
         // EDIT GET
@@ -396,9 +415,38 @@ namespace Savemate.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult>Details(int id)
+        {
+
+            var userId = _userManager.GetUserId(User);
+            var t = await _transactionService.GetTransactionAsync(id, userId);
+            if (t == null)
+                return NotFound();
+
+            var viewModelList = new TransactionViewModel
+            {
+                Id = t.Id,
+                Type = t.Type,
+                Amount = t.Amount,
+                Date = t.Date,
+                Note = t.Note,
+                FromAccountId = t.FromAccountId,
+                ToAccountId = t.ToAccountId,
+                FromAccountName = t.FromAccount?.Name,
+                ToAccountName = t.ToAccount?.Name,
+                IsReversed = t.IsReversed,
+                IsReversalEntry = t.IsReversalEntry,
+            };
+
+
+
+            return View(viewModelList);
+             
+        }
+
 
         //[HttpGet]
-        //public async Task<IActionResult> Reverse(int id)
+        //public async Task<IActionResult> Reverse(int id)  
         //{
         //    var userId = _userManager.GetUserId(User);
         //    var transaction = await _transactionService.GetTransactionAsync(id, userId);

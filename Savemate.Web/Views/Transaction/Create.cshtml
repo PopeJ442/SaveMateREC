@@ -28,27 +28,30 @@
             <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
 
-        <div class="mb-3">
+        @* <div class="mb-3">
             <label asp-for="Date" class="form-label fw-bold">Date</label>
             <input asp-for="Date" class="form-control" type="date" />
+            @DateTime.Now
             <span asp-validation-for="Date" class="text-danger"></span>
-        </div>
+        </div> *@
 
-        <div class="mb-3">
-            <label asp-for="FromAccountId" class="form-label fw-bold">From Account</label>
+        <div class="mb-3" id="fromAccountDiv">
+            <label class="form-label fw-bold">From Account</label>
             <select asp-for="FromAccountId" asp-items="Model.Accounts" class="form-select" id="fromAccount">
                 <option value="">-- Select Account --</option>
             </select>
-            <span asp-validation-for="FromAccountId" class="text-danger"></span>
+            <small id="fromBalance" class="text-muted"></small>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="ToAccountId" class="form-label fw-bold">To Account</label>
+
+        <div class="mb-3" id="toAccountDiv">
+            <label class="form-label fw-bold">To Account</label>
             <select asp-for="ToAccountId" asp-items="Model.Accounts" class="form-select" id="toAccount">
                 <option value="">-- Select Account --</option>
             </select>
-            <span asp-validation-for="ToAccountId" class="text-danger"></span>
+            <small id="toBalance" class="text-muted"></small>
         </div>
+
 
         <div class="mb-3">
             <label asp-for="Category" class="form-label fw-bold">Category Type</label>
@@ -58,11 +61,12 @@
                     <option value="@((int)categoryType)">@categoryType</option>
                 }
             </select>
+            <small id="toBalance" class="text-muted"></small>
             <span asp-validation-for="Category" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Note" class="form-label fw-bold">Note</label>
+            <label asp-for="Note" class="form-label fw-bold">Enter Reference</label>
             <textarea asp-for="Note" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Note" class="text-danger"></span>
         </div>
@@ -79,6 +83,7 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+
         // === Prevent selecting the same account for both dropdowns ===
         const fromAccount = document.getElementById("fromAccount");
         const toAccount = document.getElementById("toAccount");
@@ -97,24 +102,23 @@
             });
         });
 
-        // === Optional: Hide/show fields based on Transaction Type ===
+        // === Hide/show based on transaction type ===
         const typeSelect = document.getElementById("transactionType");
-        const fromAccountDiv = document.querySelector('[asp-for="FromAccountId"]').closest('.mb-3');
-        const toAccountDiv = document.querySelector('[asp-for="ToAccountId"]').closest('.mb-3');
+        const fromAccountDiv = document.getElementById("fromAccountDiv");
+        const toAccountDiv = document.getElementById("toAccountDiv");
 
         function toggleAccounts() {
             const type = typeSelect.value;
 
-            // Expense: Show FromAccount only
-            // Income: Show ToAccount only
-            // Transfer: Show both
             if (type === "Expense") {
                 fromAccountDiv.style.display = "block";
                 toAccountDiv.style.display = "none";
-            } else if (type === "Income") {
+            }
+            else if (type === "Income") {
                 fromAccountDiv.style.display = "none";
                 toAccountDiv.style.display = "block";
-            } else {
+            }
+            else {
                 fromAccountDiv.style.display = "block";
                 toAccountDiv.style.display = "block";
             }
@@ -122,5 +126,33 @@
 
         typeSelect.addEventListener("change", toggleAccounts);
         toggleAccounts(); // run on page load
+
+                function loadBalance(selectElement, balanceLabel) {
+            const accountId = selectElement.value;
+
+            if (!accountId) {
+                balanceLabel.innerText = "";
+                return;
+            }
+
+            fetch(`/Transaction/GetAccountBalance?accountId=${accountId}`)
+                .then(response => response.json())
+                .then(data => {
+                    balanceLabel.innerText = `Balance: GHS ${data.balance.toFixed(2)}`;
+                });
+        }
+
+        // From Account
+        fromAccount.addEventListener("change", function () {
+            loadBalance(fromAccount, document.getElementById("fromBalance"));
+        });
+
+        // To Account
+        toAccount.addEventListener("change", function () {
+            loadBalance(toAccount, document.getElementById("toBalance"));
+        });
+
+
     </script>
+
 }
