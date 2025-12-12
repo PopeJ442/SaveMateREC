@@ -31,12 +31,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transactions</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="register">Register</a>
-                        </li>
+              
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="index">Account</a>
                         </li>
+                        <li class="nav-item ms-auto">
+                            <a class="nav-link text-danger" asp-controller="Authentication" asp-action="Logout">
+                                Logout
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </div>

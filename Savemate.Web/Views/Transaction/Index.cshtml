@@ -4,51 +4,91 @@
     ViewData["Title"] = "Transactions";
 }
 
-<h2>Transactions</h2>
+<h2 class="mb-4 fw-bold">Transactions</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add Transaction</a>
-</p> 
+<div class="mb-3 text-end">
+    <a asp-action="Create" class="btn btn-primary px-4">+ Add Transaction</a>
+</div>
 
-<table class="table table-striped">
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <thead>
+<table class="table table-hover table-bordered align-middle shadow-sm">
+    <thead class="table-light">
         <tr>
             <th>Type</th>
             <th>Amount</th>
             <th>Date</th>
             <th>From Account</th>
             <th>To Account</th>
-            <th></th>
+            <th class="text-center">Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var t in Model)
         {
-            <tr>
-                <td>@t.Type</td>
-                <td>@t.Amount.ToString("C")</td>
-                <td>@t.Date.ToShortDateString()</td>
-                <td>@t.FromAccountName</td>
-                <td>@t.ToAccountName</td>
+            <tr class="@(t.IsReversed || t.IsReversalEntry ? "table-danger" : "")">
+
+                <!-- Transaction Type with Color Badge -->
                 <td>
-                      <a asp-action="Details" asp-route-id="@t.Id" class="btn btn-sm btn-info">View</a>
+                    @if (t.Type == Savemate.Domain.Enums.TransactionTypeEnum.Income)
+                    {
+                        <span class="badge bg-success">@t.Type</span>
+                    }
+                    else if (t.Type == Savemate.Domain.Enums.TransactionTypeEnum.Expense)
+                    {
+                        <span class="badge bg-danger">@t.Type</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-primary">@t.Type</span>
+                    }
+                </td>
+
+                <!-- Amount -->
+                <td class="fw-bold">
+                    GHS @t.Amount.ToString("N2")
+                </td>
+
+                <!-- Date -->
+                <td>@t.Date.ToString("dd MMM yyyy")</td>
+
+                <!-- From Account -->
+                <td>@(t.FromAccountName ?? "-")</td>
+
+                <!-- To Account -->
+                <td>@(t.ToAccountName ?? "-")</td>
+
+                <!-- Actions -->
+                <td class="text-center">
+
+                    <a asp-action="Details"
+                       asp-route-id="@t.Id"
+                       class="btn btn-sm btn-info text-white me-1 px-3">
+                        View
+                    </a>
+
                     @if (t.IsReversed == true || t.IsReversalEntry == true)
                     {
-                        <button class="btn btn-danger" disabled>Reversed</button>
+                        <button class="btn btn-sm btn-secondary px-3" disabled
+                                title="This transaction has already been reversed">
+                            Reversed
+                        </button>
                     }
                     else
                     {
                         <form asp-action="ReverseConfirmed" method="post" style="display:inline">
                             <input type="hidden" name="id" value="@t.Id" />
-                            <button type="submit" class="btn btn-sm btn-warning">Reverse</button>
+                            <button type="submit"
+                                    class="btn btn-sm btn-warning px-3"
+                                    onclick="return confirm('Are you sure you want to reverse this transaction?');">
+                                Reverse
+                            </button>
                         </form>
                     }
 
-
-                   @*  <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">Delete</a> *@
                 </td>
+
             </tr>
         }
     </tbody>

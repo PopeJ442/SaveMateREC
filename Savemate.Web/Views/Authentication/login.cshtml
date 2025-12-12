@@ -2,25 +2,53 @@
 @model Login
 
 @{
-    ViewData["title"] = "Login Page";
-
+    ViewData["Title"] = "Login";
+    Layout = "_AuthLayout";
 }
 
-<div asp-validation-summary="All"></div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow p-4">
 
-<form asp-action="Login" method="post">
-    <input type="hidden" asp-for="ReturnUrl" />
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
+                <h3 class="text-center mb-4 fw-bold">Welcome Back</h3>
+
+                <form asp-controller="Authentication" asp-action="Login" method="post">
+
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-bold">Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-bold">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Log In</button>
+
+                    <a class="btn btn-danger w-100 mt-2" asp-action="GoogleLogin">
+                        Login with Google
+                    </a>
+
+                    <p class="text-center mt-3">
+                        Don't have an account?
+                        <a asp-action="Register" asp-controller="Authentication">Sign up</a>
+                    </p>
+
+                </form>
+
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-    </div>
-    <div class="form-group">
-        Remember me? <input type="checkbox" asp-for="RememberMe" />
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
-    <a class="btn btn-info" asp-action="GoogleLogin">Log In With Google</a>
-</form>
+</div>

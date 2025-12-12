@@ -138,8 +138,13 @@ namespace Savemate.Web.Controllers
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
         }
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                 
+                return RedirectToAction("Index", "Home");
+            }
             Login login = new Login();
             login.ReturnUrl = returnUrl;
             return View(login);
@@ -147,7 +152,7 @@ namespace Savemate.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("login", "Authentication");
         }
 
 
@@ -156,7 +161,7 @@ namespace Savemate.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login login, string? returnUrl = null)
         {
-            returnUrl ??= Url.Content("/account/index"); // default to home
+            returnUrl ??= Url.Content("/Home/index");
 
             if (!ModelState.IsValid)
                 return View(login);
@@ -168,13 +173,13 @@ namespace Savemate.Web.Controllers
                 return View(login);
             }
 
-            // Sign out previous sessions
+             
             await _signInManager.SignOutAsync();
 
             var result = await _signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
             if (result.Succeeded)
             {
-                // ✅ This ensures proper redirection after login
+
                 return LocalRedirect(returnUrl);
             }
 
