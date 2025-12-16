@@ -13,7 +13,8 @@ namespace Savemate.Web.ViewModels
 
         [Required]
         public string LastName { get; set; }
-
+        public   string Country { get; set; }
+        public   string PhoneNumber { get; set; }
         [Required, EmailAddress]
         public string Email { get; set; }
 
