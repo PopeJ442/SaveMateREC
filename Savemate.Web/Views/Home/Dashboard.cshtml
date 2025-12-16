@@ -1,0 +1,108 @@
+﻿@model Savemate.Application.Interface.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 fw-bold">Welcome back</h2>
+
+    <!-- Summary Cards -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 dashboard-card">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Total Balance</h5>
+                    <h2 class="fw-bold text-primary">@Model.TotalBalance.ToString("C")</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 dashboard-card">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Total Income</h5>
+                    <h2 class="fw-bold text-success">@Model.TotalIncome.ToString("C")</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 dashboard-card">
+                <div class="card-body text-center">
+                    <h5 class="text-muted">Total Expense</h5>
+                    <h2 class="fw-bold text-danger">@Model.TotalExpense.ToString("C")</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card mt-5 shadow-sm border-0">
+        <div class="card-body">
+            <h4 class="fw-bold mb-3">Recent Transactions</h4>
+
+            @if (Model.RecentTransactions.Any())
+            {
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Account</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.RecentTransactions)
+                        {
+                            <tr>
+                                <td>@t.Type</td>
+                                <td>@t.Amount.ToString("C")</td>
+                                <td>@t.Date.ToShortDateString()</td>
+                                <td>
+                                    @if (t.FromAccountName != null)
+                                    {
+                                        <span class="text-danger">- @t.FromAccountName</span>
+                                    }
+                                    @if (t.ToAccountName != null)
+                                    {
+                                        <span class="text-success">+ @t.ToAccountName</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-controller="Transaction" asp-action="Details" asp-route-id="@t.Id" class="btn btn-sm btn-info">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">No transactions yet.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-4 text-center">
+        <a asp-controller="Transaction" asp-action="Create" class="btn btn-primary px-4">Add Transaction</a>
+        <a asp-controller="Account" asp-action="Index" class="btn btn-outline-secondary px-4">Manage Accounts</a>
+    </div>
+
+</div>
+ 
+  <style>
+    .dashboard-card {
+        border-radius: 12px;
+        transition: 0.2s ease-in-out;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+</style> 
+ 

@@ -1,8 +1,9 @@
-﻿namespace Savemate.Application.Interfaces.Services
+﻿
+using Savemate.Domain.Entities;
+ 
+
+namespace Savemate.Application.Interfaces.Services
 {
-    using Savemate.Domain.Entities;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public interface ITransactionService
     {
