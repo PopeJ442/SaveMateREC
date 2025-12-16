@@ -1,1 +1,38 @@
-.vs
+# =========================
+# .NET / Visual Studio
+# =========================
+
+bin/
+obj/
+
+**/bin/
+**/obj/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Rider / VS / Cache
+.vs/
+.idea/
+*.user
+*.suo
+*.cache
+*.log
+
+# ASP.NET
+appsettings.Development.json
+
+# Generated files
+*.dll
+*.pdb
+*.exe
+*.deps.json
+*.runtimeconfig.json
+*.sourcelink.json
+
+# Razor / tooling cache
+rjsmin.cache.json
+rjsmax.cache.json

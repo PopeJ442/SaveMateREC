@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Savemate.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e3bca20e8ac5b8e05f73c345a777ffbe110b17a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7709f471e87f3394240a47e43a6f3e2a77e19dfb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Savemate.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Savemate.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
