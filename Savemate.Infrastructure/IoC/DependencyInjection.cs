@@ -49,6 +49,8 @@ namespace Savemate.Infrastructure.IoC
             services.AddScoped<ITransactionService,TransactionService>();
             services.AddScoped<ITransactionAuditRepository, TransactionAuditRepository>();
             services.AddScoped<ITransactionAuditService, TransactionAuditService>();
+            services.AddScoped<IDashboardService, DashboardService>();
+
 
 
 
