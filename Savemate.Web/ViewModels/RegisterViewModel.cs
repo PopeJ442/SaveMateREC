@@ -13,7 +13,8 @@ namespace Savemate.Web.ViewModels
 
         [Required]
         public string LastName { get; set; }
-
+        public   string? Country { get; set; }
+        public   string? PhoneNumber { get; set; }
         [Required, EmailAddress]
         public string Email { get; set; }
 
@@ -26,8 +27,8 @@ namespace Savemate.Web.ViewModels
 
         public DateOnly DOB { get; set; }
 
-        [Required]
-        public string CountryCode { get; set; }
+      
+        public string? CountryCode { get; set; }
 
         public List<SelectListItem> Countries { get; set; } = new();
     }

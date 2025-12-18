@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Savemate.Application.Common.Extensions;
 using Savemate.Application.Services.IService;
@@ -9,14 +10,17 @@ using System.Threading.Tasks;
 namespace Savemate.Web.Controllers
 {
   //  [Authorize]
-    public class ApplicationUserController(IApplicationUserService userService) : Controller
+    public class ApplicationUserController(IApplicationUserService userService, UserManager<ApplicationUser>userManager) : Controller
     {
         private readonly IApplicationUserService _userService = userService;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         int age ;
-        public async Task<IActionResult> Index()
+     
+         public async Task<IActionResult> Index()
         {
-           var users = await _userService.GetAllUsers();
+            var userId = _userManager.GetUserId(User);
+            var users = await _userService.GetUserByIdAsync(userId);
 
             return View(users);
         }

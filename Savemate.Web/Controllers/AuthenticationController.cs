@@ -25,7 +25,7 @@ namespace Savemate.Web.Controllers
 
         public IActionResult Register()
         {
-  
+         
          var countries = CountryHelper.GetAllCountries()
         .Select(c => new SelectListItem
         {
@@ -35,7 +35,9 @@ namespace Savemate.Web.Controllers
 
             var viewModel = new RegisterViewModel
             {
-                Countries = countries
+                Countries = countries,
+                PhoneNumber = "4",
+                Country = "dd"
             };
 
             return View(viewModel);
@@ -61,6 +63,7 @@ namespace Savemate.Web.Controllers
                 Email = model.Email,
                 Country = model.CountryCode,
                 DOB = model.DOB,
+                PhoneNumber = model.PhoneNumber
               //  TwoFactorEnabled = false
             };
 
@@ -223,7 +226,9 @@ namespace Savemate.Web.Controllers
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     FirstName = info.Principal.FindFirst(ClaimTypes.Name).Value,
-                    LastName = info.Principal.FindFirst(ClaimTypes.Name).Value
+                    LastName = info.Principal.FindFirst(ClaimTypes.Name).Value,
+                    PhoneNumber = info.Principal.FindFirst(ClaimTypes.Name).Value,
+                    Country   = info.Principal.FindFirst(ClaimTypes.Name).Value
                 };
 
                 IdentityResult identResult = await userManager.CreateAsync(user);

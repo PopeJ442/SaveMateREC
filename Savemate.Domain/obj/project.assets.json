@@ -2998,25 +2998,22 @@
   },
   "packageFolders": {
     "C:\\Users\\POPE\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\Savemate.Web\\Savemate.Domain\\Savemate.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj",
       "projectName": "Savemate.Domain",
-      "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\Savemate.Web\\Savemate.Domain\\Savemate.Domain.csproj",
+      "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj",
       "packagesPath": "C:\\Users\\POPE\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\Savemate.Web\\Savemate.Domain\\obj\\",
+      "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\POPE\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.1.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3025,7 +3022,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\DevExpress 24.1\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3044,7 +3041,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -3081,7 +3078,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
