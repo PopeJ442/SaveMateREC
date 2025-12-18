@@ -6,27 +6,30 @@ using Savemate.Infrastructure.Repository;
 
 public class AccountRepository : BaseRepository<Account>, IAccountRepository
 {
-    private readonly SaveMateDbContext _context;
-
+    private readonly SaveMateDbContext _context; 
+    protected readonly DbSet<Account> _accounts;
     public AccountRepository(SaveMateDbContext context) : base(context)
     {
-        _context = context;
+        _context = context; 
+        _accounts = context.Set<Account>();
+
     }
+  
 
     public async Task<Account> AddAccountAsync(Account account, string userId, CancellationToken ct = default)
     {
         account.UserId = userId;
-        await _context.Set<Account>().AddAsync(account, ct);
+        await _accounts.AddAsync(account, ct);
         await _context.SaveChangesAsync(ct);
         return account;
     }
 
     public async Task<Account?> GetAccountByIdAsync(int id, string userId, CancellationToken ct = default)
-        => await _context.Set<Account>()
+        => await _accounts
                          .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId, ct);
 
     public async Task<List<Account>> ListAccountByUserAsync(string userId, CancellationToken ct = default)
-        => await _context.Set<Account>()
+        => await _accounts
                          .Where(a => a.UserId == userId)
                          .ToListAsync(ct);
 
@@ -39,7 +42,7 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
         existing.Type = account.Type;
         existing.InitialBalance = account.InitialBalance;
 
-        _context.Set<Account>().Update(existing);
+        _accounts.Update(existing);
         await _context.SaveChangesAsync(ct);
         return existing;
     }
@@ -49,7 +52,7 @@ public class AccountRepository : BaseRepository<Account>, IAccountRepository
         var account = await GetAccountByIdAsync(id, userId, ct);
         if (account == null) return false;
 
-        _context.Set<Account>().Remove(account);
+        _accounts.Remove(account);
         await _context.SaveChangesAsync(ct);
         return true;
     }
