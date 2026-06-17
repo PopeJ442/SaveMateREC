@@ -19,7 +19,7 @@ namespace Savemate.Web.ViewModels
         public string Email { get; set; }
 
         [Required, DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         [DataType(DataType.Password)]

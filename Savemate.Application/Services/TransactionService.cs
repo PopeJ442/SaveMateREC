@@ -1,4 +1,5 @@
-﻿using Savemate.Application.Interface.IRepositories;
+﻿using Microsoft.Extensions.Logging;
+using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Interfaces.Repositories;
 using Savemate.Application.Interfaces.Services;
 using Savemate.Domain.Entities;
@@ -11,16 +12,19 @@ namespace Savemate.Application.Services
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionAuditRepository _auditLogRepository;
+        private readonly ILogger<TransactionService> _logger;   
      
 
         public TransactionService(
             ITransactionRepository transactionRepository,
             IAccountRepository accountRepository,
-            ITransactionAuditRepository auditLogRepository)
+            ITransactionAuditRepository auditLogRepository,
+            ILogger<TransactionService> logger )
         {
             _transactionRepository = transactionRepository;
             _accountRepository = accountRepository;
             _auditLogRepository = auditLogRepository;
+            _logger = logger;   
         }
 
         public async Task<Transaction?> GetTransactionAsync(int id, string userId)
@@ -36,55 +40,74 @@ namespace Savemate.Application.Services
 
         public async Task<(bool IsSuccess, string Message, Transaction? Result)> CreateTransactionAsync(Transaction transaction)
         {
-            // Load accounts safely
-            var fromAccount = transaction.FromAccountId.HasValue
-                ? await _accountRepository.GetByIdAsync(transaction.FromAccountId.Value)
-                : null;
-
-            var toAccount = transaction.ToAccountId.HasValue
-                ? await _accountRepository.GetByIdAsync(transaction.ToAccountId.Value)
-                : null;
-
-            // 🔥 VALIDATION: Check insufficient funds BEFORE creating transaction
-            if (transaction.Type == TransactionTypeEnum.Expense ||
-                transaction.Type == TransactionTypeEnum.Transfer)
+            try
             {
-                if (fromAccount == null)
-                    return (false, "Source account not found.", null);
+                _logger.LogInformation("Starting a transaction");
+                var fromAccount = transaction.FromAccountId.HasValue
+                    ? await _accountRepository.GetByIdAsync(transaction.FromAccountId.Value)
+                    : null;
 
-                if (fromAccount.InitialBalance < transaction.Amount)
-                    return (false, "Insufficient balance in the selected account.", null);
+                var toAccount = transaction.ToAccountId.HasValue
+                    ? await _accountRepository.GetByIdAsync(transaction.ToAccountId.Value)
+                    : null;
+
+                // 🔥 VALIDATION: Check insufficient funds BEFORE creating transaction
+                if (transaction.Type == TransactionTypeEnum.Expense ||
+                    transaction.Type == TransactionTypeEnum.Transfer)
+                {
+                    if (fromAccount == null)
+                        return (false, "Source account not found.", null);
+
+                    if (fromAccount.InitialBalance < transaction.Amount)
+                        return (false, "Insufficient balance in the selected account.", null);
+                }
+
+                // 🔥 VALIDATION: for Income, ensure TO account exists
+                if (transaction.Type == TransactionTypeEnum.Income)
+                {
+                    if (toAccount == null)
+                        return (false, "Target account not found.", null);
+                }
+
+                // UPDATE BALANCES
+                switch (transaction.Type)
+                {
+                    case TransactionTypeEnum.Income:
+                        toAccount!.InitialBalance += transaction.Amount;
+                        break;
+
+                    case TransactionTypeEnum.Expense:
+                        fromAccount!.InitialBalance -= transaction.Amount;
+                        break;
+
+                    case TransactionTypeEnum.Transfer:
+                        fromAccount!.InitialBalance -= transaction.Amount;
+                        toAccount!.InitialBalance += transaction.Amount;
+                        break;
+                }
+
+                // SAVE 
+                await _transactionRepository.AddAsync(transaction);
+                await _transactionRepository.SaveChangesAsync();
+                _logger.LogInformation($"Transaction {transaction.Id} is created successfully");
+
+                return (true, "Transaction created successfully.", transaction);
+            }
+            //catch (Exception ex) 
+            //{
+            //    _logger.LogError(ex, "Transaction of ");
+            //}
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Error creating transaction for UserId {UserId} ",
+                    transaction.UserId
+                );
+
+                throw;
             }
 
-            // 🔥 VALIDATION: for Income, ensure TO account exists
-            if (transaction.Type == TransactionTypeEnum.Income)
-            {
-                if (toAccount == null)
-                    return (false, "Target account not found.", null);
-            }
-
-            // UPDATE BALANCES
-            switch (transaction.Type)
-            {
-                case TransactionTypeEnum.Income:
-                    toAccount!.InitialBalance += transaction.Amount;
-                    break;
-
-                case TransactionTypeEnum.Expense:
-                    fromAccount!.InitialBalance -= transaction.Amount;
-                    break;
-
-                case TransactionTypeEnum.Transfer:
-                    fromAccount!.InitialBalance -= transaction.Amount;
-                    toAccount!.InitialBalance += transaction.Amount;
-                    break;
-            }
-
-            // SAVE 
-            await _transactionRepository.AddAsync(transaction);
-            await _transactionRepository.SaveChangesAsync();
-
-            return (true, "Transaction created successfully.", transaction);
         }
 
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Savemate.Web.Controllers
 {
-  //  [Authorize]
+   [Authorize]
     public class ApplicationUserController(IApplicationUserService userService, UserManager<ApplicationUser>userManager) : Controller
     {
         private readonly IApplicationUserService _userService = userService;

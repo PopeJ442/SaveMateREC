@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,28 +11,31 @@ namespace Savemate.Application.Common.Extensions
 {
     public class EmailHelper
     {
-
-
+        private readonly EmailSettings _settings;
+        public EmailHelper(IOptions<EmailSettings>option)
+        {
+            _settings = option.Value;
+        }
         public bool SendEmailTwoFactorCode(string userEmail, string code)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("hpi78thgeneration@gmail.com");
+            mailMessage.From = new MailAddress(_settings.SenderEmail);
             mailMessage.To.Add(new MailAddress(userEmail));
             mailMessage.Subject = "Two Factor Code";
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = $"<p>Your authentication code is: <strong>{code}</strong></p>";
 
-            using (SmtpClient client = new SmtpClient("smtpout.secureserver.net", 587))
+            using (SmtpClient client = new SmtpClient(_settings.SmtpHost, _settings.SmtpPort))
             {
-                client.Credentials = new NetworkCredential("hpi78thgeneration@gmail.com", "@Theboiisgood1");
-                client.EnableSsl = true; // Important for most SMTP servers
+                client.Credentials = new NetworkCredential(_settings.SenderEmail, _settings.SenderPassword);
+                client.EnableSsl = true;  
 
                 try
                 {
                     client.Send(mailMessage);
                     return true;
                 }
-                catch (Exception ex)
+                catch (Exception  )
                 {
                     // log ex.Message
                     return false;

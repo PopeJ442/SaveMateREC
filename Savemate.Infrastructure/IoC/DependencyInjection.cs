@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Savemate.Application.Common;
+using Savemate.Application.Common.Extensions;
 using Savemate.Application.Interface.IRepositories;
 using Savemate.Application.Interfaces.Repositories;
 using Savemate.Application.Interfaces.Services;
@@ -11,7 +13,6 @@ using Savemate.Application.Services.IService.IAccountService;
 using Savemate.Infrastructure.CustomPolicy;
 using Savemate.Infrastructure.Repositories;
 using Savemate.Infrastructure.Repository;
- 
 
 
 namespace Savemate.Infrastructure.IoC
@@ -21,11 +22,13 @@ namespace Savemate.Infrastructure.IoC
         public static void AddingDbContext(IServiceCollection services, IConfiguration configuration) 
         {
             services.AddDbContext<SaveMateDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-        
+
+
+          //  services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
         }
         public static void IdentityOption(IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(opt => {
+                services.Configure<IdentityOptions>(opt => {
                 opt.User.RequireUniqueEmail = true;
                 opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 opt.Password.RequiredLength = 8;
@@ -49,11 +52,9 @@ namespace Savemate.Infrastructure.IoC
             services.AddScoped<ITransactionService,TransactionService>();
             services.AddScoped<ITransactionAuditRepository, TransactionAuditRepository>();
             services.AddScoped<ITransactionAuditService, TransactionAuditService>();
-            services.AddScoped<IDashboardService, DashboardService>();
-
-
-
-
+            services.AddScoped<IDashboardService, DashboardService>(); 
+            services.AddTransient<EmailHelper>();
+ 
 
         }
 

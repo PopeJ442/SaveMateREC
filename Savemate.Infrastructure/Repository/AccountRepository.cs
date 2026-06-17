@@ -6,11 +6,11 @@ using Savemate.Infrastructure.Repository;
 
 public class AccountRepository : BaseRepository<Account>, IAccountRepository
 {
-    private readonly SaveMateDbContext _context; 
-    protected readonly DbSet<Account> _accounts;
+    
+    private readonly DbSet<Account> _accounts;
     public AccountRepository(SaveMateDbContext context) : base(context)
     {
-        _context = context; 
+         
         _accounts = context.Set<Account>();
 
     }

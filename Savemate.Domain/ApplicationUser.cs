@@ -16,8 +16,7 @@ namespace Savemate.Infrastructure
         public required string LastName { get; set; }
       
         public DateOnly DOB { get; set; }
-        public   string? Country { get; set; }
-        public   string? PhoneNumber { get; set; }
+        public   string? Country { get; set; } 
         public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
         public virtual  ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
         public virtual  ICollection<Category> Categories { get; set; } = new List<Category>();

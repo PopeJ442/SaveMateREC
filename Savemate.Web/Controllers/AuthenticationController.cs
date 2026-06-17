@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Options;
+using Savemate.Application.Common;
 using Savemate.Application.Common.Extensions;
 using Savemate.Domain.Entities;
 using Savemate.Infrastructure;
@@ -11,16 +14,20 @@ using System.Security.Claims;
 
 namespace Savemate.Web.Controllers
 {
-    public class AuthenticationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher, IPasswordValidator<ApplicationUser> passwordValidator, IUserValidator<ApplicationUser> userValidator) : Controller
+    public class AuthenticationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IPasswordHasher<ApplicationUser> passwordHasher,
+        IPasswordValidator<ApplicationUser> passwordValidator, IUserValidator<ApplicationUser> userValidator, EmailHelper emailHelper) : Controller
     
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager= signInManager;
-
-         
+        private readonly EmailHelper _emailHelper = emailHelper;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher = passwordHasher;
         private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
+
+
+         
+
 
 
         public IActionResult Register()
@@ -56,7 +63,7 @@ namespace Savemate.Web.Controllers
 
             var user = new ApplicationUser
             {
-                UserName = model.UserName,
+                UserName = model.UserName.Trim(),
                 FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
@@ -194,7 +201,7 @@ namespace Savemate.Web.Controllers
             ModelState.AddModelError("", "Invalid login attempt.");
             return View(login);
         }
-
+         
         [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
@@ -252,7 +259,7 @@ namespace Savemate.Web.Controllers
 
             var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
-            EmailHelper emailHelper = new EmailHelper();
+           
             bool emailResponse = emailHelper.SendEmailTwoFactorCode(user.Email, token);
 
             return View();

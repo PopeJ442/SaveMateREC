@@ -6,6 +6,6 @@ namespace Savemate.Application.Services.IService
     public interface IDashboardService
     {
 
-        Task<DashboardViewModel> GetDashboardDataAsync(string userId);
+        Task<DashboardDTO> GetDashboardDataAsync(string userId);
     }
 }

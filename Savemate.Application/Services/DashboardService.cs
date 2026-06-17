@@ -25,7 +25,7 @@ namespace Savemate.Application.Services
             _userManager = userManager;
         }
 
-        public async Task<DashboardViewModel> GetDashboardDataAsync(string userId)
+        public async Task<DashboardDTO> GetDashboardDataAsync(string userId)
         {
          
              var accounts = await _accountRepository.ListAccountByUserAsync(userId);
@@ -35,10 +35,10 @@ namespace Savemate.Application.Services
              
              var totalIncome =  transactions.Where(t => t.Type ==  TransactionTypeEnum.Income && !t.IsReversed).Sum(t =>t.Amount);
             var totalExpense = transactions
-        .Where(t => t.Type == TransactionTypeEnum.Expense && !t.IsReversalEntry)
+        .Where(t => t.Type == TransactionTypeEnum.Expense && !t.IsReversed)
         .Sum(t => t.Amount);
 
-            var recentTransaction = transactions.OrderByDescending(t => t.Date).Take(5).Select(t => new TransactionViewModel {
+            var recentTransaction = transactions.OrderByDescending(t => t.Date).Take(5).Select(t => new TransactionDTO {
                 Id = t.Id,
                 Type = t.Type,
                 Amount = t.Amount,
@@ -46,7 +46,7 @@ namespace Savemate.Application.Services
                 FromAccountName = t.FromAccount?.Name,
                 ToAccountName = t.ToAccount?.Name
             });
-            return new DashboardViewModel
+            return new DashboardDTO
             {
                 TotalBalance = totalBalance,
                 TotalIncome = totalIncome,
@@ -54,43 +54,6 @@ namespace Savemate.Application.Services
                 RecentTransactions = recentTransaction.ToList(),
             };
         }
-
-        //public async Task<DashboardViewModel> GetDashboardDataAsync(string userId, CancellationToken ct = default)
-        //{
-        //    var accounts = await _accountRepository.GetAccountByIdAsync(userId );
-        //    var transactions = await _transactionRepository.GetByUserIdAsync(userId);
-
-        //    var totalBalance = accounts.Sum(a => a.Balance);
-
-        //    var totalIncome = transactions
-        //        .Where(t => t.Type == TransactionType.Income && !t.IsReversalEntry)
-        //        .Sum(t => t.Amount);
-
-        //var totalExpense = transactions
-        //    .Where(t => t.Type == TransactionType.Expense && !t.IsReversalEntry)
-        //    .Sum(t => t.Amount);
-
-        //    var recentTransactions = transactions
-        //        .OrderByDescending(t => t.Date)
-        //        .Take(5)
-        //        .Select(t => new TransactionViewModel
-        //        {
-        //            Id = t.Id,
-        //            Type = t.Type,
-        //            Amount = t.Amount,
-        //            Date = t.Date,
-        //            FromAccountName = t.FromAccount?.Name,
-        //            ToAccountName = t.ToAccount?.Name
-        //        })
-        //        .ToList();
-
-        //    return new DashboardViewModel
-        //    {
-        //        TotalBalance = totalBalance,
-        //        TotalIncome = totalIncome,
-        //        TotalExpense = totalExpense,
-        //        RecentTransactions = recentTransactions
-        //    };
-        //}
+         
     }
 }

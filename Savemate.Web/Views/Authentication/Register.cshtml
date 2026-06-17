@@ -2,58 +2,82 @@
 @using Savemate.Domain.Enums
 @using Savemate.Web.ViewModels
 @model RegisterViewModel
+
 @{
     Layout = "_AuthLayout";
     ViewData["title"] = "Create an account";
-}  
- 
+}
 
-<h1  >Create User</h1>
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px; border-radius: 12px;">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Create Account</h2>
+            <p class="text-muted">Join Savemate and start tracking your finances</p>
+        </div>
+       
+        <form method="post">
+            @Html.AntiForgeryToken()
 
-<div asp-validation-summary="All" class="text-danger"></div>
-@Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-<form method="post">
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" class="form-control" />
+            <!-- Username -->
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label"></label>
+                <input asp-for="UserName" class="form-control form-control-lg" placeholder="Enter username" />
+            </div>
+
+            <!-- Names -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder="First name" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="MiddleName" class="form-label"></label>
+                    <input asp-for="MiddleName" class="form-control" placeholder="Middle name (optional)" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Last name" />
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter email address" />
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label"></label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm password" />
+            </div>
+
+            <!-- Country -->
+            <div class="mb-4">
+                <label asp-for="CountryCode" class="form-label"></label>
+                <select asp-for="CountryCode" class="form-select" asp-items="Model.Countries">
+                    <option selected disabled value="">Select your Country</option>
+                </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                <a asp-action="Login" class="btn btn-outline-secondary">Already have an account? Login</a>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="MiddleName"></label>
-        <input asp-for="MiddleName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" class="form-control" />
-    </div>  
-    <div class="form-group">
-        <label asp-for="CountryCode"></label>
-        <select asp-for="CountryCode" class="form-control" asp-items="Model.Countries">
-            <option selected disabled value="">Select your Country</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="login" class="btn btn-secondary">Back</a>
-</form>
-
-
-
-
+</div>
 
 
 @* 

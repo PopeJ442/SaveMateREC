@@ -18,7 +18,7 @@ namespace Savemate.Web.Controllers
         private readonly IUserValidator<ApplicationUser> _userValidator = userValidator;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator = passwordValidator;
 
-   //  [Authorize]
+   [Authorize]
         public IActionResult Index()
         {
             var users = _userManager.Users.ToList();

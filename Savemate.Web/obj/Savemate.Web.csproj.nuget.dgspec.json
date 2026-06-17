@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Web\\Savemate.Web.csproj": {}
+    "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Web\\Savemate.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj": {
+    "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj",
+        "projectUniqueName": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj",
         "projectName": "Savemate.Application",
-        "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj",
+        "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj",
         "packagesPath": "C:\\Users\\POPE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\obj\\",
+        "outputPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,15 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj"
               }
             }
           }
@@ -49,10 +49,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNet.Mvc": {
@@ -86,18 +87,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
+    "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj",
         "projectName": "Savemate.Domain",
-        "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj",
+        "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj",
         "packagesPath": "C:\\Users\\POPE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\obj\\",
+        "outputPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -112,11 +113,11 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -131,10 +132,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
@@ -168,18 +170,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj": {
+    "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj",
         "projectName": "Savemate.Infrastructure",
-        "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\POPE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -194,18 +196,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj"
               },
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj"
               }
             }
           }
@@ -220,10 +222,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
@@ -275,18 +278,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Web\\Savemate.Web.csproj": {
+    "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Web\\Savemate.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Web\\Savemate.Web.csproj",
+        "projectUniqueName": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Web\\Savemate.Web.csproj",
         "projectName": "Savemate.Web",
-        "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Web\\Savemate.Web.csproj",
+        "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Web\\Savemate.Web.csproj",
         "packagesPath": "C:\\Users\\POPE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Web\\obj\\",
+        "outputPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -301,21 +304,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Application\\Savemate.Application.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Application\\Savemate.Application.csproj"
               },
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Domain\\Savemate.Domain.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Domain\\Savemate.Domain.csproj"
               },
-              "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\POPE\\Documents\\ToTheWorld\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj"
+              "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\POPE\\Documents\\C#\\save\\Savemate.Infrastructure\\Savemate.Infrastructure.csproj"
               }
             }
           }
@@ -330,10 +333,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Countries.Net": {
@@ -343,10 +347,6 @@
             "CountryData": {
               "target": "Package",
               "version": "[6.13.0, )"
-            },
-            "Microsoft.AspNet.Identity.Core": {
-              "target": "Package",
-              "version": "[2.2.4, )"
             },
             "Microsoft.AspNetCore.Authentication.Google": {
               "target": "Package",
@@ -379,6 +379,18 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -400,7 +412,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
